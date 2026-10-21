@@ -1,0 +1,258 @@
+---
+/**
+ * Tratamentos como índice editorial: cada linha abre para “quando
+ * procurar” e “o que você ganha”, com atalho para perguntar no WhatsApp.
+ * Usa <details> nativo: acessível por teclado e sem JavaScript.
+ */
+import { tratamentos, tratamentosIntro } from '../../content/tratamentos';
+import Button from '../Button.astro';
+import Pendencia from '../Pendencia.astro';
+import Brush from '../Brush.astro';
+
+const lista = tratamentos.filter((t) => t.ativo);
+---
+
+<section id="tratamentos" class="section treat" aria-labelledby="treat-titulo">
+  <Brush shape="squiggle" color="rosa" class="treat__squiggle" />
+  <div class="container">
+    <header class="treat__head">
+      <div>
+        <span class="kicker">{tratamentosIntro.kicker}</span>
+        <h2 id="treat-titulo" class="h2">{tratamentosIntro.titulo}</h2>
+      </div>
+      <p class="lead treat__intro">{tratamentosIntro.intro}</p>
+    </header>
+
+    <ul class="treat__list">
+      {
+        lista.map((t, i) => (
+          <li id={`tratamento-${t.slug}`}>
+            <details class="treat__item" name="tratamentos">
+              <summary class="treat__summary">
+                <span class="treat__num">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="treat__name">{t.nome}</h3>
+                <p class="treat__resumo">{t.resumo}</p>
+                <span class="treat__icon" aria-hidden="true" />
+              </summary>
+              <div class="treat__body">
+                <dl>
+                  <div>
+                    <dt>Quando procurar</dt>
+                    <dd>{t.quando}</dd>
+                  </div>
+                  <div>
+                    <dt>O que você ganha</dt>
+                    <dd>{t.beneficio}</dd>
+                  </div>
+                </dl>
+                <div class="treat__more">
+                  <Button
+                    whatsapp={`Oi, Dra. Amanda! Vim pelo site e queria saber mais sobre ${t.nome.toLowerCase()}.`}
+                    variant="text">
+                    Perguntar sobre isso no WhatsApp
+                  </Button>
+                  <Pendencia texto={t.validar} />
+                </div>
+              </div>
+            </details>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="treat__foot">
+      Nenhum tratamento começa sem avaliação. O que funciona para uma pessoa pode não ser indicado para outra.
+    </p>
+  </div>
+</section>
+
+<style>
+  .treat {
+    overflow: clip;
+  }
+  .treat :global(.treat__squiggle) {
+    position: absolute;
+    width: clamp(140px, 13vw, 200px);
+    right: -48px;
+    top: 12px;
+    transform: rotate(8deg);
+  }
+  .treat__head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: end;
+    margin-bottom: clamp(48px, 6vw, 80px);
+    position: relative;
+  }
+  .treat__head > div {
+    grid-column: 1 / span 6;
+  }
+  .treat__intro {
+    grid-column: 8 / span 5;
+  }
+
+  .treat__list {
+    border-top: 1.5px solid var(--tinta);
+  }
+  .treat__list > li {
+    border-bottom: 1px solid var(--linha);
+  }
+  .treat__summary {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 5fr) minmax(0, 6fr) 32px;
+    align-items: baseline;
+    gap: 16px;
+    padding-block: clamp(22px, 2.4vw, 30px);
+    cursor: pointer;
+    list-style: none;
+  }
+  .treat__summary::-webkit-details-marker {
+    display: none;
+  }
+  .treat__num {
+    font-family: var(--f-titulo);
+    font-weight: 700;
+    font-size: var(--t-micro);
+    letter-spacing: 0.1em;
+    color: var(--texto-suave);
+  }
+  .treat__name {
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 2rem);
+    line-height: 1.15;
+    transition: color 250ms var(--ease);
+  }
+  .treat__summary:hover .treat__name {
+    color: var(--rosa-profundo);
+  }
+  .treat__resumo {
+    color: var(--texto-suave);
+  }
+  .treat__icon {
+    position: relative;
+    justify-self: end;
+    width: 18px;
+    height: 18px;
+    align-self: center;
+  }
+  .treat__icon::before,
+  .treat__icon::after {
+    content: '';
+    position: absolute;
+    inset: 8px 0 auto;
+    height: 2px;
+    background: var(--tinta);
+    transition: transform 300ms var(--ease);
+  }
+  .treat__icon::after {
+    transform: rotate(90deg);
+  }
+  .treat__item[open] .treat__icon::after {
+    transform: rotate(0deg);
+  }
+  .treat__item[open] .treat__name {
+    color: var(--rosa-profundo);
+  }
+
+  .treat__body {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 5fr) minmax(0, 6fr) 32px;
+    gap: 16px;
+    padding-bottom: clamp(28px, 3vw, 40px);
+  }
+  .treat__body dl {
+    grid-column: 2 / span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 40px;
+    margin: 0;
+  }
+  .treat__body dt {
+    font-family: var(--f-titulo);
+    font-weight: 700;
+    font-size: var(--t-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--petroleo-profundo);
+    margin-bottom: 8px;
+  }
+  .treat__body dd {
+    margin: 0;
+  }
+  .treat__more {
+    grid-column: 2 / span 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+  }
+  .treat__foot {
+    margin-top: 32px;
+    font-size: var(--t-small);
+    color: var(--texto-suave);
+    max-width: 40rem;
+  }
+
+  @media (max-width: 1023px) {
+    .treat__head {
+      grid-template-columns: 1fr;
+      row-gap: 20px;
+    }
+    .treat__head > div,
+    .treat__intro {
+      grid-column: 1;
+    }
+    .treat__summary {
+      grid-template-columns: 40px 1fr 24px;
+      row-gap: 6px;
+    }
+    .treat__resumo {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    .treat__icon {
+      grid-column: 3;
+      grid-row: 1;
+    }
+    .treat__body {
+      grid-template-columns: 40px 1fr;
+    }
+    .treat__body dl,
+    .treat__more {
+      grid-column: 2;
+    }
+    .treat__body dl {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 559px) {
+    .treat__summary {
+      grid-template-columns: 1fr 24px;
+      column-gap: 12px;
+    }
+    .treat__num {
+      display: none;
+    }
+    .treat__name {
+      grid-column: 1;
+    }
+    .treat__resumo {
+      grid-column: 1;
+    }
+    .treat__icon {
+      grid-column: 2;
+    }
+    .treat__body {
+      grid-template-columns: 1fr;
+    }
+    .treat__body dl,
+    .treat__more {
+      grid-column: 1;
+    }
+    .treat :global(.treat__squiggle) {
+      width: 120px;
+      right: -40px;
+      top: 20px;
+    }
+  }
+</style>

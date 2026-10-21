@@ -1,0 +1,171 @@
+---
+import { hero } from '../../content/home';
+import Button from '../Button.astro';
+import Photo from '../Photo.astro';
+import Brush from '../Brush.astro';
+// Quando a foto existir: import fotoHero from '../../assets/fotos/dra-amanda-hero.jpg';
+const fotoHero = undefined;
+---
+
+<section class="hero" data-hero aria-labelledby="hero-titulo">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <p class="hero__eyebrow">{hero.eyebrow}</p>
+      <h1 id="hero-titulo" class="hero__title">
+        <span>{hero.titulo[0]}</span>
+        <span class="rosa">{hero.titulo[1]}</span>
+      </h1>
+      <p class="hero__lead lead">{hero.texto}</p>
+      <div class="hero__ctas">
+        <Button whatsapp size="lg">{hero.ctaPrincipal}</Button>
+        <Button href="#como-funciona" variant="text">{hero.ctaSecundario}</Button>
+      </div>
+    </div>
+
+    <div class="hero__media">
+      <Brush shape="squiggle" color="rosa" class="hero__squiggle" />
+      <Photo
+        image={fotoHero}
+        alt={hero.foto.alt}
+        label={hero.foto.label}
+        hint={hero.foto.dica}
+        ratio="4 / 5"
+        frame="tl"
+        tilt={1.2}
+        eager
+        sizes="(min-width: 1024px) 40vw, 100vw"
+      />
+      <p class="hero__note" aria-hidden="true">
+        {hero.anotacao}
+        <svg viewBox="0 0 60 40" width="52" height="34">
+          <path d="M4 6c18 2 34 10 44 26m0 0-1.5-10M48 32l-10-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        </svg>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(28px, 5vw, 72px) clamp(72px, 8vw, 128px);
+    overflow: clip;
+  }
+  .hero__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: center;
+  }
+  .hero__text {
+    grid-column: 1 / span 7;
+    padding-block: 24px;
+  }
+  .hero__eyebrow {
+    font-size: var(--t-small);
+    color: var(--texto-suave);
+    margin-bottom: clamp(20px, 2.5vw, 32px);
+  }
+  .hero__title {
+    font-size: var(--t-h1);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+  }
+  .hero__title span {
+    display: block;
+  }
+  .hero__lead {
+    max-width: 34rem;
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 32px;
+    margin-top: clamp(32px, 3.5vw, 44px);
+  }
+
+  .hero__media {
+    grid-column: 8 / span 5;
+    position: relative;
+    padding: 28px 0 0 24px;
+  }
+  .hero__media :global(.hero__squiggle) {
+    position: absolute;
+    width: 48%;
+    right: -16%;
+    bottom: -7%;
+    z-index: 2;
+    transform: rotate(-8deg);
+  }
+  .hero__note {
+    position: absolute;
+    left: -34%;
+    bottom: 14%;
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+    font-family: var(--f-mao);
+    font-weight: 500;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--rosa-profundo);
+    white-space: nowrap;
+    transform: rotate(-4deg);
+  }
+  .hero__note svg {
+    margin-top: 14px;
+    transform: rotate(-12deg);
+  }
+
+  @media (max-width: 1023px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+      row-gap: 48px;
+    }
+    .hero__text,
+    .hero__media {
+      grid-column: 1 / -1;
+    }
+    .hero__media {
+      max-width: 520px;
+      width: 88%;
+      justify-self: end;
+      padding: 16px 0 0 0;
+    }
+    .hero__note {
+      left: auto;
+      right: calc(100% + 4px);
+      bottom: 10%;
+      font-size: 1.5rem;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .hero__note svg {
+      margin: 4px 6px 0 0;
+    }
+  }
+  @media (max-width: 559px) {
+    .hero__media {
+      width: 84%;
+    }
+    .hero__media :global(.hero__squiggle) {
+      width: 38%;
+      right: -12%;
+      bottom: -5%;
+    }
+    .hero__note {
+      right: auto;
+      left: -24%;
+      bottom: -9%;
+      flex-direction: row;
+      align-items: flex-start;
+      font-size: 1.4rem;
+      z-index: 2;
+    }
+    .hero__note svg {
+      display: none;
+    }
+  }
+</style>

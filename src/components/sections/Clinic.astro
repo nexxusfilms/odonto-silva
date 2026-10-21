@@ -1,0 +1,215 @@
+---
+import { consultorio } from '../../content/home';
+import { site, isFilled } from '../../config/site';
+import Photo from '../Photo.astro';
+import Button from '../Button.astro';
+import type { ImageMetadata } from 'astro';
+
+// Quando as fotos existirem, importe de src/assets/fotos e coloque na ordem
+// de `consultorio.fotos`: [consultório, recepção, fachada, detalhe].
+const imagens: (ImageMetadata | undefined)[] = [undefined, undefined, undefined, undefined];
+const [principal, recepcao, fachada, detalhe] = consultorio.fotos;
+
+const e = site.endereco;
+const mapsQuery = encodeURIComponent(
+  isFilled(e.rua) ? `${e.rua}, ${e.bairro}, ${e.cidade} - ${e.uf}` : `Odonto Silva ${e.bairro} ${e.cidade}`,
+);
+const mapsLink = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+---
+
+<section id="consultorio" class="section clinic" aria-labelledby="clinic-titulo">
+  <div class="container">
+    <header class="clinic__head">
+      <span class="kicker">{consultorio.kicker}</span>
+      <h2 id="clinic-titulo" class="h2">{consultorio.titulo}</h2>
+      <p class="lead">{consultorio.intro}</p>
+    </header>
+
+    <div class="clinic__gallery">
+      <Photo image={imagens[0]} alt={principal.alt} label={principal.label} hint={principal.dica} ratio="4 / 3" class="g-a" sizes="(min-width: 1024px) 58vw, 100vw" />
+      <Photo image={imagens[1]} alt={recepcao.alt} label={recepcao.label} hint={recepcao.dica} ratio="4 / 5" class="g-b" sizes="(min-width: 1024px) 30vw, 50vw" />
+      <Photo image={imagens[2]} alt={fachada.alt} label={fachada.label} hint={fachada.dica} ratio="3 / 2" class="g-c" frame="bl" sizes="(min-width: 1024px) 40vw, 100vw" />
+      <Photo image={imagens[3]} alt={detalhe.alt} label={detalhe.label} hint={detalhe.dica} ratio="1 / 1" class="g-d" sizes="(min-width: 1024px) 26vw, 50vw" />
+    </div>
+
+    <div class="clinic__info" id="como-chegar">
+      <div>
+        <h3 class="clinic__label">Endereço</h3>
+        <address>
+          {e.rua}<br />
+          {e.bairro}, {e.cidade} - {e.uf}<br />
+          {e.cep}
+        </address>
+        <p class="clinic__ref">{e.referencia}</p>
+      </div>
+      <div>
+        <h3 class="clinic__label">Horários</h3>
+        <dl class="clinic__hours">
+          {site.horarios.map((h) => (
+            <div>
+              <dt>{h.dias}</dt>
+              <dd>{h.horas}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div class="clinic__go">
+        <h3 class="clinic__label">Como chegar</h3>
+        <Button href={mapsLink} variant="text">Abrir no Google Maps</Button>
+        <Button whatsapp="Oi, Dra. Amanda! Vim pelo site e queria confirmar o endereço do consultório." variant="text">
+          Pedir a localização no WhatsApp
+        </Button>
+      </div>
+    </div>
+
+    <div class="clinic__map">
+      {
+        isFilled(site.links.mapaEmbed) ? (
+          <iframe
+            src={site.links.mapaEmbed}
+            title="Mapa com a localização da Odonto Silva"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          />
+        ) : (
+          <div class="clinic__map-ph">
+            <span>[INSERIR MAPA DO GOOGLE]</span>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .clinic__head {
+    max-width: 44rem;
+    margin-bottom: clamp(48px, 6vw, 80px);
+  }
+  .clinic__head .h2 {
+    margin-bottom: 20px;
+  }
+
+  .clinic__gallery {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 24px);
+    align-items: start;
+  }
+  .clinic__gallery :global(.g-a) {
+    grid-column: 1 / span 7;
+  }
+  .clinic__gallery :global(.g-b) {
+    grid-column: 9 / span 4;
+    margin-top: clamp(40px, 8vw, 120px);
+  }
+  .clinic__gallery :global(.g-c) {
+    grid-column: 2 / span 5;
+    margin-top: clamp(-90px, -5vw, -24px);
+  }
+  .clinic__gallery :global(.g-d) {
+    grid-column: 8 / span 3;
+    margin-top: clamp(24px, 3vw, 48px);
+  }
+
+  .clinic__info {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    margin-top: clamp(64px, 8vw, 112px);
+    padding-top: 40px;
+    border-top: 1.5px solid var(--tinta);
+  }
+  .clinic__label {
+    font-size: var(--t-micro);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--petroleo-profundo);
+    margin-bottom: 14px;
+  }
+  address {
+    font-style: normal;
+  }
+  .clinic__ref {
+    margin-top: 8px;
+    color: var(--texto-suave);
+    font-size: var(--t-small);
+  }
+  .clinic__hours div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 6px;
+    border-bottom: 1px solid var(--linha);
+  }
+  .clinic__hours dd {
+    margin: 0;
+    text-align: right;
+  }
+  .clinic__hours {
+    margin: 0;
+  }
+  .clinic__go {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .clinic__map {
+    margin-top: 40px;
+    aspect-ratio: 16 / 5;
+    background: var(--nevoa-azul);
+  }
+  .clinic__map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .clinic__map-ph {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-family: var(--f-titulo);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: var(--petroleo-profundo);
+  }
+
+  @media (max-width: 1023px) {
+    .clinic__gallery {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .clinic__gallery :global(.g-a) {
+      grid-column: 1 / -1;
+    }
+    .clinic__gallery :global(.g-b) {
+      grid-column: 1 / span 3;
+      margin-top: 0;
+    }
+    .clinic__gallery :global(.g-c) {
+      grid-column: 4 / span 3;
+      margin-top: 40%;
+    }
+    .clinic__gallery :global(.g-d) {
+      display: none;
+    }
+    .clinic__info {
+      grid-template-columns: 1fr 1fr;
+    }
+    .clinic__go {
+      grid-column: 1 / -1;
+    }
+    .clinic__map {
+      aspect-ratio: 4 / 3;
+    }
+  }
+  @media (max-width: 559px) {
+    .clinic__info {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

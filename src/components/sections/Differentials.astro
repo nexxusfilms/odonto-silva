@@ -1,0 +1,114 @@
+---
+import { diferenciais } from '../../content/home';
+import Photo from '../Photo.astro';
+const fotoAtendimento = undefined;
+---
+
+<section class="section diff" aria-labelledby="diff-titulo">
+  <div class="container diff__grid">
+    <header class="diff__head">
+      <h2 id="diff-titulo" class="h2">{diferenciais.titulo}</h2>
+      <Photo
+        image={fotoAtendimento}
+        alt={diferenciais.foto.alt}
+        label={diferenciais.foto.label}
+        hint={diferenciais.foto.dica}
+        ratio="4 / 3"
+        frame="br"
+        tilt={-1}
+        class="diff__photo"
+        sizes="(min-width: 1024px) 36vw, 100vw"
+      />
+    </header>
+
+    <ol class="diff__list">
+      {
+        diferenciais.itens.map((item, i) => (
+          <li class="diff__item" data-reveal>
+            <span class="diff__num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="diff__title">{item.titulo}</h3>
+              <p>{item.texto}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .diff {
+    background: var(--branco);
+  }
+  .diff__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+  .diff__head {
+    grid-column: 1 / span 5;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+  .diff__head :global(.diff__photo) {
+    margin-top: clamp(40px, 4vw, 56px);
+    width: 88%;
+  }
+  .diff__list {
+    grid-column: 7 / span 6;
+    counter-reset: d;
+  }
+  .diff__item {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 8px;
+    padding-block: clamp(28px, 3vw, 40px);
+    border-top: 1px solid var(--linha);
+  }
+  .diff__item:last-child {
+    border-bottom: 1px solid var(--linha);
+  }
+  .diff__num {
+    font-family: var(--f-titulo);
+    font-weight: 800;
+    font-size: 1.125rem;
+    color: var(--rosa);
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+  .diff__title {
+    font-size: var(--t-h3);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .diff__item p {
+    color: var(--texto);
+    max-width: 34rem;
+  }
+
+  @media (max-width: 1023px) {
+    .diff__grid {
+      grid-template-columns: 1fr;
+      row-gap: 48px;
+    }
+    .diff__head,
+    .diff__list {
+      grid-column: 1;
+    }
+    .diff__head {
+      position: static;
+    }
+    .diff__head :global(.diff__photo) {
+      width: 92%;
+      max-width: 520px;
+    }
+  }
+  @media (max-width: 559px) {
+    .diff__item {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>

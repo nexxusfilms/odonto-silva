@@ -1,0 +1,394 @@
+<title>Lista de fotos Odonto Silva</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Poppins:wght@400;500&family=Caveat:wght@500&display=swap">
+<style>
+  /* Layout: folha de produção editorial. Cada foto = diagrama do enquadramento à esquerda, especificação à direita. */
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #5a5f61;
+    --line: rgb(26 26 26 / 0.12);
+    --rosa: #f70b6e;
+    --rosa-txt: #c4085a;
+    --petroleo: #65aeba;
+    --petroleo-txt: #2c6e7b;
+    --nevoa: #e8f4f6;
+    --nevoa-rosa: #fff0f6;
+    --avoid: rgb(247 11 110 / 0.16);
+    --f-display: 'Inter', system-ui, sans-serif;
+    --f-body: 'Poppins', system-ui, sans-serif;
+    --f-hand: 'Caveat', 'Comic Sans MS', cursive;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121617; --fg: #eef2f2; --muted: #a3adaf; --line: rgb(238 242 242 / 0.14);
+      --rosa: #ff3b8a; --rosa-txt: #ff7aae; --petroleo: #65aeba; --petroleo-txt: #8fcbd5;
+      --nevoa: #1c2a2d; --nevoa-rosa: #2a1820; --avoid: rgb(255 59 138 / 0.22); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121617; --fg: #eef2f2; --muted: #a3adaf; --line: rgb(238 242 242 / 0.14);
+    --rosa: #ff3b8a; --rosa-txt: #ff7aae; --petroleo: #65aeba; --petroleo-txt: #8fcbd5;
+    --nevoa: #1c2a2d; --nevoa-rosa: #2a1820; --avoid: rgb(255 59 138 / 0.22); color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font: 400 15.5px/1.65 var(--f-body);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 64px;
+  }
+  .wrap { max-width: 1040px; margin-inline: auto; }
+  h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.03em; line-height: 1.08; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  .label {
+    font: 700 11.5px/1.4 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--petroleo-txt);
+  }
+
+  /* Cabeçalho */
+  .top { padding-block: 48px 40px; display: grid; gap: 20px; position: relative; }
+  .top h1 { font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3.4rem); font-weight: 800; }
+  .top h1 span { color: var(--rosa-txt); display: block; }
+  .top .intro { max-width: 62ch; color: var(--fg); }
+  .brushline { height: 6px; width: min(320px, 60%); background: var(--petroleo); border-radius: 0 3px 3px 0; transform: rotate(-1deg); }
+
+  .rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; padding-block: 28px; border-top: 1.5px solid var(--fg); border-bottom: 1px solid var(--line); }
+  .rules h2 { font-size: 1rem; margin-bottom: 8px; }
+  .rules ul { margin: 0; padding-left: 18px; }
+  .rules li + li { margin-top: 4px; }
+  .rules .nope li::marker { color: var(--rosa-txt); }
+  .rules .yes li::marker { color: var(--petroleo-txt); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 24px; padding-block: 20px; font-size: 13.5px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .sw { width: 18px; height: 14px; display: inline-block; }
+  .sw.avoid { background: repeating-linear-gradient(135deg, var(--avoid) 0 4px, transparent 4px 7px), var(--avoid); border: 1px solid var(--rosa); }
+  .sw.face { border: 2px dashed var(--petroleo-txt); }
+  .sw.lines { background: linear-gradient(var(--petroleo), var(--petroleo)) 0 2px / 100% 3px no-repeat, linear-gradient(var(--petroleo), var(--petroleo)) 2px 0 / 3px 100% no-repeat; }
+
+  /* Fotos */
+  .group-title { font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.9rem); padding-block: 48px 8px; }
+  .shot { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; padding-block: 32px; border-top: 1px solid var(--line); }
+  .shot-id { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  .shot-id code { font: 500 12.5px/1.4 ui-monospace, Menlo, monospace; color: var(--muted); }
+  .shot h3 { font-size: 1.35rem; }
+  .shot .where { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
+  .specs { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 8px 16px; margin: 0; }
+  .specs dt { font: 700 12px/1.6 var(--f-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--petroleo-txt); padding-top: 2px; }
+  .specs dd { margin: 0; min-width: 0; }
+  .tag { display: inline-block; font: 700 11px/1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 8px; border: 1px solid currentColor; }
+  .tag.must { color: var(--rosa-txt); }
+  .tag.opt { color: var(--muted); }
+
+  .check { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 14px; cursor: pointer; }
+  .check input { width: 18px; height: 18px; accent-color: var(--rosa-txt); }
+  .shot.done h3 { text-decoration: line-through; text-decoration-color: var(--rosa); }
+
+  /* Diagrama do enquadramento */
+  .frame-col { display: grid; gap: 10px; align-content: start; justify-items: start; }
+  .frame {
+    position: relative; width: 100%; max-width: 100%; background: var(--nevoa); outline: 1.5px solid var(--fg); outline-offset: -1px;
+  }
+  .frame.v { width: 168px; }
+  .frame .zone { position: absolute; }
+  .frame .avoid { background: repeating-linear-gradient(135deg, var(--avoid) 0 5px, transparent 5px 9px), var(--avoid); border: 1px solid var(--rosa); }
+  .frame .face { border: 2px dashed var(--petroleo-txt); border-radius: 50%; }
+  .frame .box { border: 2px dashed var(--petroleo-txt); }
+  .frame .l-h, .frame .l-v { position: absolute; background: var(--petroleo); }
+  .frame .third { position: absolute; inset: 0; background:
+      linear-gradient(90deg, transparent calc(33.33% - 0.5px), var(--line) calc(33.33% - 0.5px) calc(33.33% + 0.5px), transparent calc(33.33% + 0.5px) calc(66.66% - 0.5px), var(--line) calc(66.66% - 0.5px) calc(66.66% + 0.5px), transparent calc(66.66% + 0.5px)),
+      linear-gradient(180deg, transparent calc(33.33% - 0.5px), var(--line) calc(33.33% - 0.5px) calc(33.33% + 0.5px), transparent calc(33.33% + 0.5px) calc(66.66% - 0.5px), var(--line) calc(66.66% - 0.5px) calc(66.66% + 0.5px), transparent calc(66.66% + 0.5px)); }
+  .frame-cap { font: 500 12.5px/1.45 var(--f-body); color: var(--muted); }
+  .frame-cap b { font: 700 13px var(--f-display); color: var(--fg); display: block; }
+
+  .note { font: 500 1.35rem/1.1 var(--f-hand); color: var(--rosa-txt); transform: rotate(-2deg); }
+
+  .delivery { margin-top: 56px; padding: 28px; background: var(--nevoa-rosa); display: grid; gap: 14px; }
+  .delivery h2 { font-size: 1.4rem; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font: 700 12px var(--f-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--petroleo-txt); }
+  td code { font: 500 13px ui-monospace, Menlo, monospace; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  :focus-visible { outline: 3px solid var(--rosa-txt); outline-offset: 2px; }
+
+  @media (max-width: 680px) {
+    .shot { grid-template-columns: 1fr; gap: 20px; }
+    .frame-col { grid-template-columns: auto minmax(0, 1fr); align-items: start; column-gap: 16px; }
+    .frame { width: 150px; }
+    .frame.v { width: 120px; }
+    .specs { grid-template-columns: 1fr; gap: 2px; }
+    .specs dd { margin-bottom: 10px; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brushline" aria-hidden="true"></div>
+    <p class="label">Odonto Silva · Dra. Amanda · Sessão de fotos do site</p>
+    <h1>Lista de fotos <span>do site</span></h1>
+    <p class="intro">
+      Oito fotos para o site, cada uma com proporção, orientação e enquadramento já definidos no layout.
+      Os diagramas mostram onde entram os grafismos da marca por cima da foto: deixe essas áreas sem rosto
+      e sem informação importante. Fotografe com sobra nas bordas para dar margem ao recorte.
+    </p>
+    <p class="note" aria-hidden="true">rosto, mãos e consultório reais</p>
+  </header>
+
+  <section class="rules" aria-label="Regras da sessão">
+    <div class="yes">
+      <h2>Sempre</h2>
+      <ul>
+        <li>Pessoas e consultório reais, com luz natural.</li>
+        <li>A Dra. Amanda como protagonista, com a roupa de trabalho do dia a dia.</li>
+        <li>Modelo anatômico, mãos e conversa são bem-vindos.</li>
+        <li>Balanço de branco neutro: o rosa e o azul da marca ficam fiéis.</li>
+      </ul>
+    </div>
+    <div class="nope">
+      <h2>Nunca (norma do CFO e da marca)</h2>
+      <ul>
+        <li>Procedimento em andamento, boca aberta ou o “durante”.</li>
+        <li>Antes e depois.</li>
+        <li>Banco de imagem ou foto gerada por IA.</li>
+        <li>Paciente identificável sem TCLE de imagem assinado.</li>
+      </ul>
+    </div>
+    <div class="yes">
+      <h2>Entrega</h2>
+      <ul>
+        <li>JPG em sRGB, no tamanho mínimo indicado em cada foto.</li>
+        <li>Nome do arquivo exatamente como na lista: ele já está previsto no código.</li>
+        <li>Correção de cor leve, sem filtro.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="legend" aria-label="Legenda dos diagramas">
+    <span><i class="sw avoid"></i> Área coberta por grafismo: sem rosto nem detalhe importante</span>
+    <span><i class="sw face"></i> Onde o rosto ou o assunto principal deve ficar</span>
+    <span><i class="sw lines"></i> Linhas azuis da marca (ficam fora da foto, só na borda)</span>
+  </div>
+
+  <h2 class="group-title">A Dra. Amanda</h2>
+
+  <article class="shot" data-id="f1">
+    <div class="frame-col">
+      <div class="frame v" style="aspect-ratio: 4 / 5;" role="img" aria-label="Diagrama 4 por 5 vertical: rosto no terço superior, área evitada no canto inferior direito">
+        <div class="third"></div>
+        <i class="l-h" style="left:-8%;width:62%;top:-9px;height:4px"></i>
+        <i class="l-v" style="top:-9%;height:72%;left:-9px;width:4px"></i>
+        <div class="zone face" style="left:30%;top:10%;width:38%;height:30%"></div>
+        <div class="zone avoid" style="right:0;bottom:0;width:36%;height:30%"></div>
+      </div>
+      <p class="frame-cap"><b>4:5 vertical</b>na tela: ~500 px no computador, ~290 px no celular</p>
+    </div>
+    <div>
+      <div class="shot-id"><span class="label">F1 · Topo da página</span> <span class="tag must">Essencial</span> <code>dra-amanda-hero.jpg</code></div>
+      <h3>Retrato principal</h3>
+      <p class="where">Primeira imagem do site, ao lado da frase “Aqui, o seu tratamento não muda de mão.”</p>
+      <dl class="specs">
+        <dt>Cena</dt><dd>A Dra. Amanda no consultório, da cintura para cima, olhando para a câmera. Sorriso natural, sem pose de catálogo.</dd>
+        <dt>Enquadramento</dt><dd>Rosto no terço superior, centralizado ou levemente à esquerda. Fundo do consultório desfocado e reconhecível.</dd>
+        <dt>Evitar</dt><dd>Canto inferior direito: o rabisco rosa da marca entra por cima. A anotação “oi, eu sou a Amanda” aponta para a borda esquerda, na altura das mãos.</dd>
+        <dt>Arquivo</dt><dd>Mínimo 1600 × 2000 px.</dd>
+      </dl>
+      <label class="check"><input type="checkbox" id="chk-f1"> Fotografada</label>
+    </div>
+  </article>
+
+  <article class="shot" data-id="f2">
+    <div class="frame-col">
+      <div class="frame v" style="aspect-ratio: 3 / 4;" role="img" aria-label="Diagrama 3 por 4 vertical: assunto no centro e à direita, área evitada no canto inferior esquerdo">
+        <div class="third"></div>
+        <div class="zone box" style="left:34%;top:12%;width:58%;height:56%"></div>
+        <div class="zone avoid" style="left:0;bottom:0;width:34%;height:30%"></div>
+      </div>
+      <p class="frame-cap"><b>3:4 vertical</b>na tela: ~460 px no computador, ~280 px no celular</p>
+    </div>
+    <div>
+      <div class="shot-id"><span class="label">F2 · Seção “Oi, eu sou a Amanda”</span> <span class="tag must">Essencial</span> <code>dra-amanda-sobre.jpg</code></div>
+      <h3>Explicando com o modelo anatômico</h3>
+      <p class="where">Acompanha o texto de apresentação, em primeira pessoa.</p>
+      <dl class="specs">
+        <dt>Cena</dt><dd>A Dra. Amanda explicando algo com o modelo anatômico nas mãos, como faria com um paciente. Olhar no modelo ou em quem está ouvindo, não na câmera.</dd>
+        <dt>Enquadramento</dt><dd>Plano médio. Rosto e mãos no centro e à direita do quadro.</dd>
+        <dt>Evitar</dt><dd>Canto inferior esquerdo: o arco azul da marca cobre essa área.</dd>
+        <dt>Arquivo</dt><dd>Mínimo 1500 × 2000 px.</dd>
+      </dl>
+      <label class="check"><input type="checkbox" id="chk-f2"> Fotografada</label>
+    </div>
+  </article>
+
+  <article class="shot" data-id="f3">
+    <div class="frame-col">
+      <div class="frame" style="aspect-ratio: 4 / 3;" role="img" aria-label="Diagrama 4 por 3 horizontal: as duas pessoas ocupando o centro do quadro">
+        <div class="third"></div>
+        <i class="l-h" style="right:-8%;width:58%;bottom:-9px;height:4px"></i>
+        <i class="l-v" style="bottom:-10%;height:60%;right:-9px;width:4px"></i>
+        <div class="zone box" style="left:12%;top:16%;width:76%;height:66%"></div>
+      </div>
+      <p class="frame-cap"><b>4:3 horizontal</b>na tela: ~400 px no computador, ~320 px no celular</p>
+    </div>
+    <div>
+      <div class="shot-id"><span class="label">F3 · Seção “O que muda quando a dentista está aqui todos os dias”</span> <span class="tag must">Essencial</span> <code>atendimento-conversa.jpg</code></div>
+      <h3>Conversa na cadeira</h3>
+      <p class="where">Mostra o diferencial: a mesma profissional que escuta, explica e acompanha.</p>
+      <dl class="specs">
+        <dt>Cena</dt><dd>Paciente sentado na cadeira, a Dra. Amanda ao lado conversando, antes ou depois do atendimento. As duas pessoas à vontade.</dd>
+        <dt>Enquadramento</dt><dd>As duas pessoas no centro. Pode ser de lado ou por trás do paciente, mostrando o rosto da Dra. Amanda.</dd>
+        <dt>Atenção</dt><dd>Boca fechada, nenhum instrumento em uso. Se o rosto do paciente aparecer, TCLE de imagem assinado. Alternativa: paciente de costas.</dd>
+        <dt>Arquivo</dt><dd>Mínimo 2400 × 1800 px.</dd>
+      </dl>
+      <label class="check"><input type="checkbox" id="chk-f3"> Fotografada</label>
+    </div>
+  </article>
+
+  <h2 class="group-title">O consultório</h2>
+
+  <article class="shot" data-id="f4">
+    <div class="frame-col">
+      <div class="frame" style="aspect-ratio: 4 / 3;" role="img" aria-label="Diagrama 4 por 3 horizontal, sem áreas cobertas">
+        <div class="third"></div>
+        <div class="zone box" style="left:8%;top:12%;width:84%;height:76%"></div>
+      </div>
+      <p class="frame-cap"><b>4:3 horizontal</b>a maior foto do site: ~720 px no computador, largura total no celular</p>
+    </div>
+    <div>
+      <div class="shot-id"><span class="label">F4 · Seção “O consultório”</span> <span class="tag must">Essencial</span> <code>consultorio-sala.jpg</code></div>
+      <h3>Sala de atendimento inteira</h3>
+      <p class="where">Ajuda quem tem medo de dentista a conhecer o lugar antes de chegar.</p>
+      <dl class="specs">
+        <dt>Cena</dt><dd>A sala vazia e arrumada: cadeira, bancada, janela. Luz natural, luzes de teto desligadas se esverdearem a cor.</dd>
+        <dt>Enquadramento</dt><dd>Plano aberto, da porta ou de um canto, na altura dos olhos. Linhas verticais retas.</dd>
+        <dt>Arquivo</dt><dd>Mínimo 2400 × 1800 px. Também serve para o Perfil da Empresa no Google.</dd>
+      </dl>
+      <label class="check"><input type="checkbox" id="chk-f4"> Fotografada</label>
+    </div>
+  </article>
+
+  <article class="shot" data-id="f5">
+    <div class="frame-col">
+      <div class="frame v" style="aspect-ratio: 4 / 5;" role="img" aria-label="Diagrama 4 por 5 vertical, sem áreas cobertas">
+        <div class="third"></div>
+        <div class="zone box" style="left:10%;top:14%;width:80%;height:72%"></div>
+      </div>
+      <p class="frame-cap"><b>4:5 vertical</b>na tela: ~400 px no computador, ~170 px no celular</p>
+    </div>
+    <div>
+      <div class="shot-id"><span class="label">F5 · Seção “O consultório”</span> <span class="tag must">Essencial</span> <code>consultorio-recepcao.jpg</code></div>
+      <h3>Recepção</h3>
+      <p class="where">Fica ao lado da sala, deslocada para baixo na composição.</p>
+      <dl class="specs">
+        <dt>Cena</dt><dd>Recepção ou sala de espera arrumada. Se houver alguém, de costas ou fora de foco.</dd>
+        <dt>Enquadramento</dt><dd>Vertical, com um detalhe em primeiro plano (balcão, poltrona) e o ambiente atrás.</dd>
+        <dt>Arquivo</dt><dd>Mínimo 1600 × 2000 px. Também serve para o Google.</dd>
+      </dl>
+      <label class="check"><input type="checkbox" id="chk-f5"> Fotografada</label>
+    </div>
+  </article>
+
+  <article class="shot" data-id="f6">
+    <div class="frame-col">
+      <div class="frame" style="aspect-ratio: 3 / 2;" role="img" aria-label="Diagrama 3 por 2 horizontal: porta e identificação no centro">
+        <div class="third"></div>
+        <i class="l-h" style="left:-9%;width:64%;bottom:-9px;height:4px"></i>
+        <i class="l-v" style="bottom:-12%;height:66%;left:-9px;width:4px"></i>
+        <div class="zone box" style="left:28%;top:18%;width:44%;height:64%"></div>
+      </div>
+      <p class="frame-cap"><b>3:2 horizontal</b>na tela: ~500 px no computador, ~170 px no celular</p>
+    </div>
+    <div>
+      <div class="shot-id"><span class="label">F6 · Seção “O consultório”</span> <span class="tag must">Essencial</span> <code>consultorio-fachada.jpg</code></div>
+      <h3>Fachada</h3>
+      <p class="where">Quem chega pela primeira vez precisa reconhecer a porta.</p>
+      <dl class="specs">
+        <dt>Cena</dt><dd>Fachada de frente, de dia, com a identificação da Odonto Silva legível. Sem carros na frente, se possível.</dd>
+        <dt>Enquadramento</dt><dd>Porta e placa no centro, um pouco da calçada e dos vizinhos para dar referência.</dd>
+        <dt>Arquivo</dt><dd>Mínimo 2400 × 1600 px. É a foto mais importante para o Google.</dd>
+      </dl>
+      <label class="check"><input type="checkbox" id="chk-f6"> Fotografada</label>
+    </div>
+  </article>
+
+  <article class="shot" data-id="f7">
+    <div class="frame-col">
+      <div class="frame" style="aspect-ratio: 1 / 1; width: 150px;" role="img" aria-label="Diagrama quadrado: detalhe ocupando o centro">
+        <div class="third"></div>
+        <div class="zone box" style="left:18%;top:18%;width:64%;height:64%"></div>
+      </div>
+      <p class="frame-cap"><b>1:1 quadrada</b>~320 px; aparece só no computador</p>
+    </div>
+    <div>
+      <div class="shot-id"><span class="label">F7 · Seção “O consultório”</span> <span class="tag opt">Desejável</span> <code>consultorio-biosseguranca.jpg</code></div>
+      <h3>Detalhe de biossegurança</h3>
+      <p class="where">Um detalhe que mostra cuidado sem precisar de texto.</p>
+      <dl class="specs">
+        <dt>Cena</dt><dd>Instrumentais embalados e esterilizados, autoclave ou bancada organizada. Nada sujo ou em uso.</dd>
+        <dt>Enquadramento</dt><dd>Close, pouca profundidade de campo, fundo limpo.</dd>
+        <dt>Arquivo</dt><dd>Mínimo 1600 × 1600 px.</dd>
+      </dl>
+      <label class="check"><input type="checkbox" id="chk-f7"> Fotografada</label>
+    </div>
+  </article>
+
+  <h2 class="group-title">Compartilhamento</h2>
+
+  <article class="shot" data-id="f8">
+    <div class="frame-col">
+      <div class="frame" style="aspect-ratio: 1200 / 630;" role="img" aria-label="Diagrama 1200 por 630: assunto no quadrado central, laterais podem ser cortadas">
+        <div class="zone avoid" style="left:0;top:0;width:23%;height:100%"></div>
+        <div class="zone avoid" style="right:0;top:0;width:23%;height:100%"></div>
+        <div class="zone face" style="left:36%;top:12%;width:28%;height:52%"></div>
+      </div>
+      <p class="frame-cap"><b>1200 × 630 px</b>prévia do link no WhatsApp, Instagram e Google</p>
+    </div>
+    <div>
+      <div class="shot-id"><span class="label">F8 · Prévia do link</span> <span class="tag must">Essencial</span> <code>og-image.jpg</code></div>
+      <h3>Imagem de compartilhamento</h3>
+      <p class="where">É o que aparece quando alguém manda o link do site no WhatsApp.</p>
+      <dl class="specs">
+        <dt>Cena</dt><dd>Pode ser um recorte horizontal do retrato F1. A Dra. Amanda no centro.</dd>
+        <dt>Enquadramento</dt><dd>Rosto dentro do quadrado central: o WhatsApp às vezes corta a prévia em quadrado e perde as laterais.</dd>
+        <dt>Arquivo</dt><dd>Exatamente 1200 × 630 px, JPG abaixo de 300 KB. Salvar em <code>public/og-image.jpg</code>.</dd>
+      </dl>
+      <label class="check"><input type="checkbox" id="chk-f8"> Pronta</label>
+    </div>
+  </article>
+
+  <section class="delivery" aria-labelledby="extras-title">
+    <h2 id="extras-title">Aproveitando a sessão</h2>
+    <p>Fotos extras que não entram no site agora, mas o Planejamento já prevê para o Instagram (destaques “Quem sou”, “1ª consulta”, “Bastidor”, “Como chegar”) e para o Google:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Foto</th><th>Uso</th><th>Orientação</th></tr></thead>
+        <tbody>
+          <tr><td>A Dra. Amanda recebendo alguém na porta da sala</td><td>1ª consulta</td><td class="num">vertical 9:16</td></tr>
+          <tr><td>Close das mãos com o modelo anatômico</td><td>Carrosséis “Pergunta de paciente”</td><td class="num">4:5</td></tr>
+          <tr><td>A Dra. Amanda mostrando o plano de tratamento ao paciente</td><td>1ª consulta, Google</td><td class="num">4:5 e 4:3</td></tr>
+          <tr><td>Caminho da rua até a porta</td><td>Como chegar</td><td class="num">vertical 9:16</td></tr>
+          <tr><td>F1 e F2 também na horizontal</td><td>Capas e Google</td><td class="num">16:9</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script>
+  document.querySelectorAll('.check input').forEach((input) => {
+    const shot = input.closest('.shot');
+    let saved = null;
+    try { saved = localStorage.getItem(input.id); } catch (e) {}
+    if (saved === '1') { input.checked = true; shot.classList.add('done'); }
+    input.addEventListener('change', () => {
+      shot.classList.toggle('done', input.checked);
+      try { localStorage.setItem(input.id, input.checked ? '1' : '0'); } catch (e) {}
+    });
+  });
+</script>

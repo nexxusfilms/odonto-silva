@@ -1,0 +1,173 @@
+---
+/**
+ * “Como funciona”. A pincelada azul atravessa todas as etapas:
+ * é o desenho do posicionamento (a mesma dentista do começo ao fim).
+ */
+import { etapas } from '../../content/home';
+import Brush from '../Brush.astro';
+import Button from '../Button.astro';
+---
+
+<section id="como-funciona" class="section process" aria-labelledby="process-titulo">
+  <div class="container">
+    <header class="process__head">
+      <div>
+        <span class="kicker">{etapas.kicker}</span>
+        <h2 id="process-titulo" class="h2">{etapas.titulo}</h2>
+      </div>
+      <p class="lead process__intro">{etapas.intro}</p>
+    </header>
+
+    <div class="process__track">
+      <p class="process__note" aria-hidden="true">{etapas.anotacao}</p>
+      <Brush shape="strokeLong" color="petroleo" stretch class="process__line" />
+      <ol class="process__list">
+        {
+          etapas.itens.map((step, i) => (
+            <li class="process__step" data-reveal style={`transition-delay:${i * 60}ms`}>
+              <span class="process__dot" aria-hidden="true" />
+              <span class="process__num">{i + 1}</span>
+              <h3 class="process__title">{step.titulo}</h3>
+              <p>{step.texto}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div class="process__cta">
+      <Button whatsapp variant="ghost">Começar pela conversa</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process {
+    background: var(--nevoa-azul);
+  }
+  .process__head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: end;
+    margin-bottom: clamp(56px, 7vw, 104px);
+  }
+  .process__head > div {
+    grid-column: 1 / span 6;
+  }
+  .process__intro {
+    grid-column: 8 / span 5;
+  }
+
+  .process__track {
+    position: relative;
+  }
+  .process__note {
+    position: absolute;
+    top: -46px;
+    left: 0;
+    font-family: var(--f-mao);
+    font-weight: 500;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--rosa-profundo);
+    transform: rotate(-2deg);
+  }
+  .process__track :global(.process__line) {
+    position: absolute;
+    left: -1%;
+    right: 2%;
+    top: 4px;
+    height: 16px;
+  }
+  .process__list {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .process__step {
+    padding-top: 52px;
+    position: relative;
+  }
+  .process__dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--nevoa-azul);
+    border: 3px solid var(--tinta);
+  }
+  .process__step:first-child .process__dot,
+  .process__step:last-child .process__dot {
+    background: var(--rosa);
+    border-color: var(--rosa);
+  }
+  .process__num {
+    display: block;
+    font-family: var(--f-titulo);
+    font-weight: 700;
+    font-size: var(--t-micro);
+    letter-spacing: 0.12em;
+    color: var(--petroleo-profundo);
+    margin-bottom: 8px;
+  }
+  .process__title {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .process__step p {
+    font-size: var(--t-small);
+    line-height: 1.65;
+  }
+  .process__cta {
+    margin-top: clamp(56px, 6vw, 80px);
+  }
+
+  @media (max-width: 1023px) {
+    .process__head {
+      grid-template-columns: 1fr;
+      row-gap: 20px;
+    }
+    .process__head > div,
+    .process__intro {
+      grid-column: 1;
+    }
+    .process__note {
+      position: static;
+      margin-bottom: 28px;
+      font-size: 1.5rem;
+    }
+    .process__track :global(.process__line) {
+      left: 2px;
+      right: auto;
+      top: 70px;
+      bottom: 0;
+      width: 18px;
+      height: auto;
+      -webkit-mask-image: none;
+      mask-image: none;
+      background: none;
+      border-left: 5px solid var(--petroleo);
+      border-radius: 3px;
+      left: 10px;
+    }
+    .process__list {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .process__step {
+      padding: 0 0 0 56px;
+    }
+    .process__dot {
+      top: 2px;
+    }
+    .process__step p {
+      font-size: var(--t-base);
+      max-width: 32rem;
+    }
+  }
+</style>

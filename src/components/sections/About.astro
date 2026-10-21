@@ -1,0 +1,138 @@
+---
+import { sobre } from '../../content/home';
+import { site } from '../../config/site';
+import Photo from '../Photo.astro';
+import Brush from '../Brush.astro';
+import Pendencia from '../Pendencia.astro';
+const fotoSobre = undefined;
+---
+
+<section id="sobre" class="section about" aria-labelledby="sobre-titulo">
+  <div class="container about__grid">
+    <div class="about__media" data-reveal>
+      <Brush shape="arc" color="petroleo" class="about__arc" />
+      <Photo
+        image={fotoSobre}
+        alt={sobre.foto.alt}
+        label={sobre.foto.label}
+        hint={sobre.foto.dica}
+        ratio="3 / 4"
+        sizes="(min-width: 1024px) 38vw, 100vw"
+      />
+    </div>
+
+    <div class="about__text">
+      <span class="kicker">{sobre.kicker}</span>
+      <h2 id="sobre-titulo" class="h2 about__title">
+        {sobre.titulo}
+        <span class="about__name">
+          {sobre.tituloDestaque}
+          <Brush shape="strokeShort" color="rosa" stretch class="about__underline" />
+        </span>
+      </h2>
+
+      <div class="about__body">
+        {sobre.paragrafos.map((p) => <p>{p}</p>)}
+        <p>
+          {sobre.escopo.texto}
+          <br /><Pendencia texto={sobre.escopo.validar} />
+        </p>
+      </div>
+
+      <blockquote class="about__quote" data-reveal>
+        <p>{sobre.citacao}</p>
+      </blockquote>
+
+      <p class="about__sign">
+        <strong>{site.profissional.nome}</strong> · {site.profissional.profissao} · CRO-SP {site.profissional.cro}
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+  }
+  .about__media {
+    grid-column: 1 / span 5;
+    position: relative;
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+  .about__media :global(.about__arc) {
+    position: absolute;
+    width: 46%;
+    left: -12%;
+    bottom: -9%;
+    z-index: 1;
+  }
+  .about__text {
+    grid-column: 7 / span 6;
+    padding-top: clamp(0px, 4vw, 48px);
+  }
+  .about__title {
+    margin-bottom: clamp(28px, 3vw, 40px);
+  }
+  .about__name {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .about__name :global(.about__underline) {
+    position: absolute;
+    left: -2%;
+    right: -4%;
+    bottom: -0.16em;
+    height: 0.2em;
+    z-index: -1;
+  }
+  .about__body {
+    display: grid;
+    gap: 1.1em;
+    max-width: 36rem;
+  }
+  .about__quote {
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding-left: 22px;
+    border-left: 6px solid var(--petroleo);
+  }
+  .about__quote p {
+    font-family: var(--f-titulo);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--petroleo-profundo);
+  }
+  .about__sign {
+    margin-top: 32px;
+    font-size: var(--t-small);
+    color: var(--texto-suave);
+  }
+  .about__sign strong {
+    color: var(--tinta);
+    font-weight: 500;
+  }
+
+  @media (max-width: 1023px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+      row-gap: 56px;
+    }
+    .about__media {
+      grid-column: 1;
+      position: relative;
+      top: 0;
+      width: 82%;
+      max-width: 460px;
+    }
+    .about__text {
+      grid-column: 1;
+      padding-top: 0;
+    }
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+/**
+ * Elementos gráficos do Manual da Marca (página “Elementos”): pinceladas,
+ * rabisco e arco. São máscaras, então a cor vem do CSS.
+ */
+import squiggle from '../assets/brand/masks/squiggle.png';
+import strokeLong from '../assets/brand/masks/stroke-teal.png';
+import strokeShort from '../assets/brand/masks/stroke-pink-short.png';
+import arc from '../assets/brand/masks/arc.png';
+
+const shapes = { squiggle, strokeLong, strokeShort, arc } as const;
+
+interface Props {
+  shape: keyof typeof shapes;
+  color?: 'rosa' | 'petroleo' | 'branco';
+  class?: string;
+  /** Estica a forma (útil para as pinceladas horizontais). */
+  stretch?: boolean;
+}
+
+const { shape, color = 'rosa', class: className = '', stretch = false } = Astro.props;
+const img = shapes[shape];
+const ratio = `${img.width} / ${img.height}`;
+---
+
+<span
+  class:list={['brush', `brush--${color}`, { 'brush--stretch': stretch }, className]}
+  style={`--mask: url("${img.src}"); --ratio: ${ratio};`}
+  aria-hidden="true"></span>
+
+<style>
+  .brush {
+    display: block;
+    aspect-ratio: var(--ratio);
+    -webkit-mask: var(--mask) center / contain no-repeat;
+    mask: var(--mask) center / contain no-repeat;
+    pointer-events: none;
+  }
+  .brush--stretch {
+    aspect-ratio: auto;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+  .brush--rosa {
+    background: var(--rosa);
+  }
+  .brush--petroleo {
+    background: var(--petroleo);
+  }
+  .brush--branco {
+    background: var(--branco);
+  }
+</style>

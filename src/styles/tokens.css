@@ -1,0 +1,47 @@
+/*
+ * Tokens da marca Odonto Silva.
+ * Cores primárias: Manual da Marca. Tons de apoio: Planejamento, seção 8
+ * (derivados para garantir contraste WCAG).
+ */
+:root {
+  /* Primárias */
+  --rosa: #f70b6e;          /* grandes áreas, destaques, formas */
+  --petroleo: #65aeba;      /* fundos e formas. Nunca texto (contraste baixo) */
+  --branco: #ffffff;
+  --preto: #000000;         /* só texto e detalhes técnicos */
+
+  /* Apoio */
+  --rosa-profundo: #c4085a; /* texto pequeno em rosa e botões (~6:1) */
+  --rosa-escuro: #a3064b;   /* hover de botões */
+  --petroleo-profundo: #2c6e7b;
+  --nevoa-azul: #e8f4f6;
+  --nevoa-rosa: #fff0f6;
+
+  /* Texto */
+  --tinta: #111111;
+  --texto: #262626;
+  --texto-suave: #575757;
+  --linha: rgb(17 17 17 / 0.12);
+
+  /* Tipografia (Manual: principal Inter Bold; secundária Poppins) */
+  --f-titulo: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --f-texto: 'Poppins', system-ui, sans-serif;
+  --f-mao: 'Caveat', cursive; /* acento manuscrito, ecoando o “Silva” do logo */
+
+  --t-h1: clamp(2.6rem, 1.55rem + 4.1vw, 5rem);
+  --t-h2: clamp(2.05rem, 1.45rem + 2.4vw, 3.4rem);
+  --t-h3: clamp(1.2rem, 1.08rem + 0.45vw, 1.45rem);
+  --t-lead: clamp(1.08rem, 1rem + 0.35vw, 1.25rem);
+  --t-base: 1.0625rem;
+  --t-small: 0.9375rem;
+  --t-micro: 0.8125rem;
+
+  /* Espaço */
+  --gutter: clamp(20px, 5vw, 56px);
+  --max: 1240px;
+  --sec-y: clamp(80px, 6vw + 48px, 152px);
+
+  --raio: 4px;
+  --header-h: 72px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}

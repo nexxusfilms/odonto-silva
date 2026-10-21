@@ -1,0 +1,128 @@
+---
+import logo from '../assets/brand/logo.svg';
+import { site, isFilled } from '../config/site';
+import { nav } from '../config/nav';
+import { whatsappHref } from '../lib/whatsapp';
+
+const p = site.profissional;
+const e = site.endereco;
+const base = Astro.url.pathname === '/' ? '' : '/';
+const ano = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <img src={logo.src} width="560" height="360" alt="Odonto Silva" loading="lazy" />
+      <p class="footer__ident">
+        {p.nome} · {p.profissao}<br />
+        CRO-SP {p.cro}<br />
+        {p.especialidade}
+      </p>
+    </div>
+
+    <div>
+      <h2 class="footer__title">Endereço</h2>
+      <address>
+        {e.rua}<br />
+        {e.bairro}, {e.cidade} - {e.uf}<br />
+        {e.cep}
+      </address>
+    </div>
+
+    <div>
+      <h2 class="footer__title">Contato</h2>
+      <ul class="footer__list">
+        <li><a href={whatsappHref()}>WhatsApp</a></li>
+        <li>{site.telefone}</li>
+        <li><a href={isFilled(site.links.instagram) ? site.links.instagram : '#'}>Instagram {site.links.instagramUser}</a></li>
+        <li><a href={isFilled(site.links.googlePerfil) ? site.links.googlePerfil : '#'}>Google</a></li>
+      </ul>
+    </div>
+
+    <nav aria-label="Rodapé">
+      <h2 class="footer__title">Navegação</h2>
+      <ul class="footer__list">
+        {nav.map((item) => <li><a href={`${base}${item.href}`}>{item.label}</a></li>)}
+        <li><a href="/politica-de-privacidade">Política de privacidade</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container footer__legal">
+    <p>
+      {site.marca} · Inscrição CRO-SP {site.clinica.inscricaoCro} · Responsável técnica: {site.clinica.responsavelTecnico}
+    </p>
+    <p>© {ano} {site.marca}. As informações deste site não substituem uma avaliação clínica.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--linha);
+    padding-block: clamp(56px, 7vw, 96px) 32px;
+    font-size: var(--t-small);
+    color: var(--texto);
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .footer__brand img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  .footer__ident {
+    line-height: 1.7;
+    color: var(--texto-suave);
+  }
+  .footer__title {
+    font-size: var(--t-micro);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--petroleo-profundo);
+    margin-bottom: 14px;
+  }
+  address {
+    font-style: normal;
+    line-height: 1.7;
+  }
+  .footer__list {
+    display: grid;
+    gap: 6px;
+  }
+  .footer a {
+    text-decoration: none;
+  }
+  .footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .footer__legal {
+    display: grid;
+    gap: 6px;
+    margin-top: 56px;
+    padding-top: 24px;
+    background: linear-gradient(var(--linha), var(--linha)) var(--gutter) 0 / calc(100% - var(--gutter) * 2) 1px
+      no-repeat;
+    font-size: var(--t-micro);
+    color: var(--texto-suave);
+  }
+
+  @media (max-width: 899px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 479px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+/**
+ * Botão/link. `whatsapp` monta o link a partir de src/config/site.ts.
+ */
+import { whatsappHref, whatsappIsExternal } from '../lib/whatsapp';
+
+interface Props {
+  href?: string;
+  whatsapp?: boolean | string;
+  variant?: 'primary' | 'ghost' | 'text';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { href, whatsapp, variant = 'primary', size = 'md', class: className = '' } = Astro.props;
+const url = whatsapp ? whatsappHref(typeof whatsapp === 'string' ? whatsapp : undefined) : href;
+const external = whatsapp && whatsappIsExternal();
+---
+
+<a
+  href={url}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  {...external ? { target: '_blank', rel: 'noopener' } : {}}>
+  <slot />
+  {variant === 'text' && <span class="btn__arrow" aria-hidden="true">→</span>}
+  {external && <span class="sr-only"> (abre o WhatsApp)</span>}
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--f-titulo);
+    font-weight: 650;
+    letter-spacing: -0.005em;
+    text-decoration: none;
+    border-radius: var(--raio);
+    transition:
+      background-color 250ms var(--ease),
+      color 250ms var(--ease),
+      border-color 250ms var(--ease);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn--md {
+    min-height: 52px;
+    padding: 0 26px;
+    font-size: 1rem;
+  }
+  .btn--lg {
+    min-height: 58px;
+    padding: 0 32px;
+    font-size: 1.0625rem;
+  }
+  .btn--sm {
+    min-height: 42px;
+    padding: 0 18px;
+    font-size: 0.9375rem;
+  }
+
+  .btn--primary {
+    background: var(--rosa-profundo);
+    color: var(--branco);
+  }
+  .btn--primary:hover {
+    background: var(--rosa-escuro);
+  }
+
+  .btn--ghost {
+    color: var(--tinta);
+    border: 1.5px solid var(--tinta);
+  }
+  .btn--ghost:hover {
+    background: var(--tinta);
+    color: var(--branco);
+  }
+
+  .btn--text {
+    min-height: 44px;
+    padding: 0;
+    color: var(--tinta);
+    border-radius: 0;
+    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 8px) / 100% 1.5px no-repeat;
+  }
+  .btn__arrow {
+    transition: transform 250ms var(--ease);
+  }
+  .btn--text:hover .btn__arrow {
+    transform: translateX(4px);
+  }
+</style>

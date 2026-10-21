@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config/site';
+---
+
+<Base title={`Política de privacidade | ${site.marca}`} description="Como a Odonto Silva trata os dados de quem visita o site e entra em contato.">
+  <article class="container legal">
+    <h1>Política de privacidade</h1>
+    <p class="legal__meta">Última atualização: [INSERIR DATA]. Texto-base a ser revisado por assessoria jurídica.</p>
+
+    <h2>Quem somos</h2>
+    <p>
+      {site.marca}, consultório odontológico da {site.profissional.nome} ({site.profissional.nomeCompleto}, CRO-SP
+      {site.profissional.cro}), em {site.endereco.bairro}, {site.endereco.cidade} - {site.endereco.uf}.
+    </p>
+
+    <h2>Quais dados coletamos</h2>
+    <p>
+      Este site não tem formulários. Quando você clica para conversar pelo WhatsApp, os dados que você decidir
+      enviar (nome, telefone e a sua mensagem) passam a ser tratados pela nossa equipe somente para responder e
+      agendar o seu atendimento.
+    </p>
+    <p>[INSERIR, SE HOUVER: ferramentas de estatística de acesso, como Google Analytics, e cookies utilizados.]</p>
+
+    <h2>Para que usamos</h2>
+    <p>Para responder ao seu contato, agendar consultas e enviar lembretes de retorno que você autorizar.</p>
+
+    <h2>Com quem compartilhamos</h2>
+    <p>Não vendemos nem compartilhamos seus dados com terceiros para fins comerciais.</p>
+
+    <h2>Seus direitos (LGPD)</h2>
+    <p>
+      Você pode pedir a qualquer momento acesso, correção ou exclusão dos seus dados, conforme a Lei nº 13.709/2018.
+      Basta falar com a gente pelo WhatsApp ou pelo e-mail [INSERIR E-MAIL].
+    </p>
+
+    <p><a href="/">Voltar para o início</a></p>
+  </article>
+</Base>
+
+<style>
+  .legal {
+    max-width: calc(46rem + var(--gutter) * 2);
+    padding-block: clamp(48px, 7vw, 112px);
+  }
+  .legal h1 {
+    font-size: var(--t-h2);
+    margin-bottom: 16px;
+  }
+  .legal h2 {
+    font-size: 1.25rem;
+    margin: 40px 0 12px;
+  }
+  .legal p + p {
+    margin-top: 12px;
+  }
+  .legal__meta {
+    color: var(--texto-suave);
+    font-size: var(--t-small);
+  }
+</style>

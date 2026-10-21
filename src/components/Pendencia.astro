@@ -1,0 +1,11 @@
+---
+import { flags } from '../config/flags';
+
+interface Props {
+  texto?: string;
+}
+
+const { texto } = Astro.props;
+---
+
+{flags.mostrarPendencias && texto && <span class="pendencia">VALIDAR: {texto}</span>}

@@ -1,0 +1,100 @@
+---
+/**
+ * Botão flutuante discreto. Aparece depois da primeira dobra e some
+ * quando o CTA final está na tela (evita dois convites ao mesmo tempo).
+ */
+import { whatsappHref, whatsappIsExternal } from '../lib/whatsapp';
+const external = whatsappIsExternal();
+---
+
+<a
+  href={whatsappHref()}
+  class="wa-float"
+  data-wa-float
+  aria-label="Agendar pelo WhatsApp"
+  {...external ? { target: '_blank', rel: 'noopener' } : {}}>
+  <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M12.04 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.1-1.3A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3 .8.8-2.95-.2-.3a8.2 8.2 0 1 1 6.9 3.78Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.17.25-.64.8-.78.97-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.32-2.9c-.25-.43.25-.4.72-1.33.08-.16.04-.3-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.3 2.73 2.73 0 0 0-.85 2.03c0 1.2.87 2.36 1 2.52.12.17 1.72 2.62 4.16 3.68 1.55.67 2.15.72 2.92.61.47-.07 1.46-.6 1.66-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.17-.47-.29Z"
+    ></path>
+  </svg>
+  <span class="wa-float__label">Agendar</span>
+</a>
+
+<script>
+  const btn = document.querySelector<HTMLElement>('[data-wa-float]');
+  const hero = document.querySelector('[data-hero]');
+  const final = document.querySelector('[data-cta-final]');
+  if (btn && 'IntersectionObserver' in window) {
+    let heroVisible = true;
+    let finalVisible = false;
+    const update = () => btn.classList.toggle('is-visible', !heroVisible && !finalVisible);
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.target === hero) heroVisible = e.isIntersecting;
+        if (e.target === final) finalVisible = e.isIntersecting;
+      }
+      update();
+    });
+    if (hero) io.observe(hero);
+    else heroVisible = false;
+    if (final) io.observe(final);
+    update();
+  } else if (btn) {
+    btn.classList.add('is-visible');
+  }
+</script>
+
+<style>
+  .wa-float {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 20px 0 16px;
+    border-radius: 999px;
+    background: var(--branco);
+    color: var(--rosa-profundo);
+    border: 1.5px solid var(--rosa-profundo);
+    box-shadow: 0 6px 20px rgb(17 17 17 / 0.08);
+    font: 650 0.9375rem var(--f-titulo);
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition:
+      opacity 300ms var(--ease),
+      transform 300ms var(--ease),
+      background-color 250ms var(--ease),
+      color 250ms var(--ease);
+  }
+  .wa-float.is-visible {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .wa-float:hover {
+    background: var(--rosa-profundo);
+    color: var(--branco);
+  }
+  .wa-float:not(.is-visible) {
+    visibility: hidden;
+    transition-property: opacity, transform, visibility;
+    transition-delay: 0s, 0s, 300ms;
+  }
+  @media (max-width: 479px) {
+    .wa-float {
+      padding: 0;
+      width: 52px;
+      justify-content: center;
+    }
+    .wa-float__label {
+      display: none;
+    }
+  }
+</style>
