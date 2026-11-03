@@ -1,6 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site } from '../config/site';
+import { site, isFilled } from '../config/site';
+import { flags } from '../config/flags';
+
+const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencias;
 ---
 
 <Base title={`Política de privacidade | ${site.marca}`} description="Como a Odonto Silva trata os dados de quem visita o site e entra em contato.">
@@ -20,13 +23,47 @@ import { site } from '../config/site';
       enviar (nome, telefone e a sua mensagem) passam a ser tratados pela nossa equipe somente para responder e
       agendar o seu atendimento.
     </p>
-    <p>[INSERIR, SE HOUVER: ferramentas de estatística de acesso, como Google Analytics, e cookies utilizados.]</p>
+
+    <h2 id="cookies">Cookies</h2>
+    <p>
+      Cookies são pequenos arquivos guardados no seu navegador. Quando você entra no site, aparece um aviso para
+      escolher quais aceita. Nada além do necessário é ativado antes da sua escolha.
+    </p>
+    <ul class="legal__list">
+      <li>
+        <strong>Necessários.</strong> Guardam a sua escolha sobre cookies por até 12 meses. Ficam só no seu
+        navegador.
+      </li>
+      <li>
+        <strong>Estatísticas (Google Analytics).</strong> Contam quantas pessoas visitam o site, de onde vêm e quais
+        botões clicam, sem identificar quem você é.
+      </li>
+      <li>
+        <strong>Anúncios (Google Ads e Meta, dona do Instagram e do Facebook).</strong> Medem se um anúncio trouxe
+        você até o site e permitem mostrar anúncios da clínica para quem já visitou.
+      </li>
+    </ul>
+    <p>
+      O mapa da seção “Como chegar” é do Google Maps e segue a política de privacidade do Google.
+    </p>
+    {
+      avisoCookies && (
+        <p>
+          <button type="button" class="legal__btn" data-cookies-abrir>
+            Mudar minhas preferências de cookies
+          </button>
+        </p>
+      )
+    }
 
     <h2>Para que usamos</h2>
     <p>Para responder ao seu contato, agendar consultas e enviar lembretes de retorno que você autorizar.</p>
 
     <h2>Com quem compartilhamos</h2>
-    <p>Não vendemos nem compartilhamos seus dados com terceiros para fins comerciais.</p>
+    <p>
+      Não vendemos seus dados. Se você aceitar os cookies de estatísticas ou de anúncios, o Google e a Meta recebem
+      dados de navegação (como páginas visitadas e cliques) para as finalidades acima.
+    </p>
 
     <h2>Seus direitos (LGPD)</h2>
     <p>
@@ -53,6 +90,30 @@ import { site } from '../config/site';
   }
   .legal p + p {
     margin-top: 12px;
+  }
+  .legal__list {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+  .legal__list + p {
+    margin-top: 12px;
+  }
+  .legal strong {
+    color: var(--tinta);
+  }
+  .legal__btn {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--rosa-profundo);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
   }
   .legal__meta {
     color: var(--texto-suave);

@@ -42,6 +42,15 @@ export function dentistSchema() {
       postalCode: e.cep,
       addressCountry: 'BR',
     },
+    geo: { '@type': 'GeoCoordinates', latitude: e.geo.lat, longitude: e.geo.lng },
+    openingHoursSpecification: site.horarios
+      .filter((h) => 'abre' in h)
+      .map((h) => ({
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: h.diasSchema,
+        opens: h.abre,
+        closes: h.fecha,
+      })),
     areaServed: [`${e.bairro}, ${e.cidade}`, e.cidade],
     sameAs: [site.links.instagram, site.links.googlePerfil],
     employee: {

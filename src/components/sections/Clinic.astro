@@ -5,16 +5,26 @@ import Photo from '../Photo.astro';
 import Button from '../Button.astro';
 import type { ImageMetadata } from 'astro';
 
-// Quando as fotos existirem, importe de src/assets/fotos e coloque na ordem
-// de `consultorio.fotos`: [consultório, recepção, fachada, detalhe].
-const imagens: (ImageMetadata | undefined)[] = [undefined, undefined, undefined, undefined];
-const [principal, recepcao, fachada, detalhe] = consultorio.fotos;
+import fotoSala from '../../assets/fotos/consultorio-sala.jpg';
+import fotoRecepcao from '../../assets/fotos/consultorio-recepcao.jpg';
+import fotoFachada from '../../assets/fotos/consultorio-fachada.jpg';
+import fotoSala2 from '../../assets/fotos/consultorio-sala-2.jpg';
+
+// Mesma ordem de `consultorio.fotos`. Para trocar uma foto, troque o import.
+const imagens: (ImageMetadata | undefined)[] = [fotoSala, fotoRecepcao, fotoFachada, fotoSala2];
+const [principal, recepcao, fachada, sala2] = consultorio.fotos;
 
 const e = site.endereco;
 const mapsQuery = encodeURIComponent(
   isFilled(e.rua) ? `${e.rua}, ${e.bairro}, ${e.cidade} - ${e.uf}` : `Odonto Silva ${e.bairro} ${e.cidade}`,
 );
 const mapsLink = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+// Abre o app da Uber (ou o site, no computador) com a clínica como destino.
+const uberLink =
+  'https://m.uber.com/ul/?action=setPickup&pickup=my_location' +
+  `&dropoff[latitude]=${e.geo.lat}&dropoff[longitude]=${e.geo.lng}` +
+  `&dropoff[nickname]=${encodeURIComponent(site.marca)}` +
+  `&dropoff[formatted_address]=${mapsQuery}`;
 ---
 
 <section id="consultorio" class="section clinic" aria-labelledby="clinic-titulo">
@@ -26,10 +36,10 @@ const mapsLink = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
     </header>
 
     <div class="clinic__gallery">
-      <Photo image={imagens[0]} alt={principal.alt} label={principal.label} hint={principal.dica} ratio="4 / 3" class="g-a" sizes="(min-width: 1024px) 58vw, 100vw" />
-      <Photo image={imagens[1]} alt={recepcao.alt} label={recepcao.label} hint={recepcao.dica} ratio="4 / 5" class="g-b" sizes="(min-width: 1024px) 30vw, 50vw" />
-      <Photo image={imagens[2]} alt={fachada.alt} label={fachada.label} hint={fachada.dica} ratio="3 / 2" class="g-c" frame="bl" sizes="(min-width: 1024px) 40vw, 100vw" />
-      <Photo image={imagens[3]} alt={detalhe.alt} label={detalhe.label} hint={detalhe.dica} ratio="1 / 1" class="g-d" sizes="(min-width: 1024px) 26vw, 50vw" />
+      <Photo image={imagens[0]} alt={principal.alt} label={principal.label} hint={principal.dica} ratio="3 / 4" class="g-a" sizes="(min-width: 1024px) 40vw, 100vw" />
+      <Photo image={imagens[1]} alt={recepcao.alt} label={recepcao.label} hint={recepcao.dica} ratio="3 / 4" class="g-b" sizes="(min-width: 1024px) 32vw, 50vw" />
+      <Photo image={imagens[2]} alt={fachada.alt} label={fachada.label} hint={fachada.dica} ratio="3 / 4" class="g-c" frame="bl" sizes="(min-width: 1024px) 32vw, 50vw" />
+      <Photo image={imagens[3]} alt={sala2.alt} label={sala2.label} hint={sala2.dica} ratio="3 / 4" class="g-d" sizes="(min-width: 1024px) 32vw, 50vw" />
     </div>
 
     <div class="clinic__info" id="como-chegar">
@@ -55,8 +65,9 @@ const mapsLink = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
       </div>
       <div class="clinic__go">
         <h3 class="clinic__label">Como chegar</h3>
-        <Button href={mapsLink} variant="text">Abrir no Google Maps</Button>
-        <Button whatsapp="Oi, Dra. Amanda! Vim pelo site e queria confirmar o endereço do consultório." variant="text">
+        <Button href={mapsLink} variant="text" track="como_chegar_google_maps">Abrir no Google Maps</Button>
+        <Button href={uberLink} variant="text" track="como_chegar_uber">Chamar um Uber até aqui</Button>
+        <Button whatsapp="Oi, Dra. Amanda! Vim pelo site e queria confirmar o endereço do consultório." variant="text" track="como_chegar_whatsapp">
           Pedir a localização no WhatsApp
         </Button>
       </div>
@@ -97,19 +108,19 @@ const mapsLink = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
     align-items: start;
   }
   .clinic__gallery :global(.g-a) {
-    grid-column: 1 / span 7;
+    grid-column: 1 / span 5;
   }
   .clinic__gallery :global(.g-b) {
-    grid-column: 9 / span 4;
-    margin-top: clamp(40px, 8vw, 120px);
+    grid-column: 7 / span 4;
+    margin-top: clamp(48px, 9vw, 128px);
   }
   .clinic__gallery :global(.g-c) {
-    grid-column: 2 / span 5;
-    margin-top: clamp(-90px, -5vw, -24px);
+    grid-column: 2 / span 4;
+    margin-top: clamp(24px, 3vw, 40px);
   }
   .clinic__gallery :global(.g-d) {
-    grid-column: 8 / span 3;
-    margin-top: clamp(24px, 3vw, 48px);
+    grid-column: 8 / span 4;
+    margin-top: clamp(48px, 7vw, 104px);
   }
 
   .clinic__info {
@@ -191,7 +202,7 @@ const mapsLink = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
     }
     .clinic__gallery :global(.g-c) {
       grid-column: 4 / span 3;
-      margin-top: 40%;
+      margin-top: 28%;
     }
     .clinic__gallery :global(.g-d) {
       display: none;

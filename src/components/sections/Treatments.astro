@@ -28,7 +28,7 @@ const lista = tratamentos.filter((t) => t.ativo);
         lista.map((t, i) => (
           <li id={`tratamento-${t.slug}`}>
             <details class="treat__item" name="tratamentos">
-              <summary class="treat__summary">
+              <summary class="treat__summary" data-track={`tratamento_${t.slug}_abrir`}>
                 <span class="treat__num">{String(i + 1).padStart(2, '0')}</span>
                 <h3 class="treat__name">{t.nome}</h3>
                 <p class="treat__resumo">{t.resumo}</p>
@@ -48,7 +48,8 @@ const lista = tratamentos.filter((t) => t.ativo);
                 <div class="treat__more">
                   <Button
                     whatsapp={`Oi, Dra. Amanda! Vim pelo site e queria saber mais sobre ${t.nome.toLowerCase()}.`}
-                    variant="text">
+                    variant="text"
+                    track={`tratamento_${t.slug}_whatsapp`}>
                     Perguntar sobre isso no WhatsApp
                   </Button>
                   <Pendencia texto={t.validar} />

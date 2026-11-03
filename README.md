@@ -1,6 +1,6 @@
 # Odonto Silva · site institucional
 
-Site da Dra. Amanda (Odonto Silva, Piraporinha, Diadema). Feito em [Astro](https://astro.build):
+Site da Dra. Amanda (Odonto Silva, Piraporinha, São Paulo). Feito em [Astro](https://astro.build):
 gera HTML estático, sem JavaScript desnecessário. Fontes de verdade:
 **Manual da Marca** (identidade) e **Planejamento Estratégico de Marketing** (posicionamento, público, tom de voz).
 

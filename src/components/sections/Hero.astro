@@ -3,8 +3,7 @@ import { hero } from '../../content/home';
 import Button from '../Button.astro';
 import Photo from '../Photo.astro';
 import Brush from '../Brush.astro';
-// Quando a foto existir: import fotoHero from '../../assets/fotos/dra-amanda-hero.jpg';
-const fotoHero = undefined;
+import fotoHero from '../../assets/fotos/dra-amanda-hero.jpg';
 ---
 
 <section class="hero" data-hero aria-labelledby="hero-titulo">
@@ -17,8 +16,8 @@ const fotoHero = undefined;
       </h1>
       <p class="hero__lead lead">{hero.texto}</p>
       <div class="hero__ctas">
-        <Button whatsapp size="lg">{hero.ctaPrincipal}</Button>
-        <Button href="#como-funciona" variant="text">{hero.ctaSecundario}</Button>
+        <Button whatsapp size="lg" track="topo_agendar_whatsapp">{hero.ctaPrincipal}</Button>
+        <Button href="#como-funciona" variant="text" track="topo_como_funciona">{hero.ctaSecundario}</Button>
       </div>
     </div>
 
@@ -35,9 +34,9 @@ const fotoHero = undefined;
         eager
         sizes="(min-width: 1024px) 40vw, 100vw"
       />
-      <p class="hero__note" aria-hidden="true">
+      <p class="hero__note">
         {hero.anotacao}
-        <svg viewBox="0 0 60 40" width="52" height="34">
+        <svg viewBox="0 0 60 40" width="52" height="34" aria-hidden="true">
           <path d="M4 6c18 2 34 10 44 26m0 0-1.5-10M48 32l-10-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
         </svg>
       </p>
@@ -101,7 +100,8 @@ const fotoHero = undefined;
   }
   .hero__note {
     position: absolute;
-    left: -34%;
+    /* Fica inteira à esquerda da foto (que começa após o padding de 24px). */
+    right: calc(100% - 20px);
     bottom: 14%;
     display: flex;
     align-items: flex-start;
@@ -119,6 +119,18 @@ const fotoHero = undefined;
     transform: rotate(-12deg);
   }
 
+  /* Notebook: a coluna de texto encosta na foto; a anotação desce para baixo dela. */
+  @media (min-width: 1024px) and (max-width: 1399px) {
+    .hero__note {
+      right: auto;
+      left: 24px;
+      bottom: auto;
+      top: calc(100% + 14px);
+    }
+    .hero__note svg {
+      display: none;
+    }
+  }
   @media (max-width: 1023px) {
     .hero__grid {
       grid-template-columns: 1fr;
@@ -136,7 +148,7 @@ const fotoHero = undefined;
     }
     .hero__note {
       left: auto;
-      right: calc(100% + 4px);
+      right: calc(100% + 10px);
       bottom: 10%;
       font-size: 1.5rem;
       flex-direction: column;

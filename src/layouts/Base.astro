@@ -4,11 +4,12 @@ import '@fontsource/poppins/latin-400.css';
 import '@fontsource/poppins/latin-500.css';
 import '@fontsource/caveat/latin-500.css';
 import '../styles/base.css';
-import { site } from '../config/site';
+import { site, isFilled } from '../config/site';
 import { flags } from '../config/flags';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title?: string;
@@ -20,6 +21,9 @@ interface Props {
 const { title = site.seo.titulo, description = site.seo.descricao, schemas = [], noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const ogImage = new URL(site.seo.ogImage, site.url).toString();
+const gtmId = isFilled(site.rastreamento.gtmId) ? site.rastreamento.gtmId : null;
+// O aviso de cookies só faz sentido com o GTM ativo; na prévia ele aparece para aprovação.
+const avisoCookies = !!gtmId || flags.mostrarPendencias;
 ---
 
 <!doctype html>
@@ -49,8 +53,72 @@ const ogImage = new URL(site.seo.ogImage, site.url).toString();
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
 
     <script is:inline>document.documentElement.classList.add('js');</script>
+    {
+      avisoCookies && (
+        // Consent Mode v2: tudo negado até a pessoa escolher. Precisa vir antes do GTM.
+        // A chave é a mesma de src/lib/consentimento.ts.
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('consent', 'default', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            functionality_storage: 'granted',
+            security_storage: 'granted',
+            wait_for_update: 500,
+          });
+          gtag('set', 'ads_data_redaction', true);
+          try {
+            var c = JSON.parse(localStorage.getItem('odontosilva_consentimento_v1'));
+            if (c && Date.now() - Date.parse(c.data) < 31536000000) {
+              var v = function (ok) {
+                return ok ? 'granted' : 'denied';
+              };
+              gtag('consent', 'update', {
+                analytics_storage: v(c.estatistica),
+                ad_storage: v(c.anuncios),
+                ad_user_data: v(c.anuncios),
+                ad_personalization: v(c.anuncios),
+              });
+            }
+          } catch (e) {}
+        </script>
+      )
+    }
+    {
+      gtmId && (
+        <script is:inline define:vars={{ gtmId }}>
+          (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0],
+              j = d.createElement(s);
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i;
+            f.parentNode.insertBefore(j, f);
+          })(window, document, 'script', 'dataLayer', gtmId);
+        </script>
+      )
+    }
   </head>
   <body>
+    {
+      gtmId && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+            title="Google Tag Manager"
+          />
+        </noscript>
+      )
+    }
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
     <Header />
     <main id="conteudo">
@@ -58,6 +126,12 @@ const ogImage = new URL(site.seo.ogImage, site.url).toString();
     </main>
     <Footer />
     <WhatsAppFloat />
+    {avisoCookies && <CookieConsent />}
+
+    <script>
+      import { iniciarRastreamento } from '../lib/tracking';
+      iniciarRastreamento();
+    </script>
 
     <script>
       // Reveal discreto ao rolar. Sem JS, o conteúdo aparece normalmente.

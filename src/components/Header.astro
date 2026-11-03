@@ -8,7 +8,7 @@ const base = Astro.url.pathname === '/' ? '' : '/';
 
 <header class="header" data-header>
   <div class="container header__bar">
-    <a href="/" class="header__logo" aria-label="Odonto Silva, página inicial">
+    <a href="/" class="header__logo" data-track="cabecalho_logo" aria-label="Odonto Silva, página inicial">
       <img src={logo.src} width="560" height="360" alt="Odonto Silva" />
     </a>
 
@@ -19,7 +19,7 @@ const base = Astro.url.pathname === '/' ? '' : '/';
     </nav>
 
     <div class="header__actions">
-      <Button whatsapp size="sm" class="header__cta">Agendar consulta</Button>
+      <Button whatsapp size="sm" class="header__cta" track="cabecalho_agendar_whatsapp">Agendar consulta</Button>
       <button
         class="header__toggle"
         type="button"
@@ -37,7 +37,7 @@ const base = Astro.url.pathname === '/' ? '' : '/';
       <ul>
         {nav.map((item) => <li><a href={`${base}${item.href}`} data-menu-link>{item.label}</a></li>)}
       </ul>
-      <Button whatsapp size="lg" class="menu__cta">Agendar pelo WhatsApp</Button>
+      <Button whatsapp size="lg" class="menu__cta" track="menu_agendar_whatsapp">Agendar pelo WhatsApp</Button>
     </nav>
   </div>
 </header>

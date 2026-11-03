@@ -4,7 +4,7 @@ import { site } from '../../config/site';
 import Photo from '../Photo.astro';
 import Brush from '../Brush.astro';
 import Pendencia from '../Pendencia.astro';
-const fotoSobre = undefined;
+import fotoSobre from '../../assets/fotos/dra-amanda-sobre.jpg';
 ---
 
 <section id="sobre" class="section about" aria-labelledby="sobre-titulo">
@@ -16,7 +16,7 @@ const fotoSobre = undefined;
         alt={sobre.foto.alt}
         label={sobre.foto.label}
         hint={sobre.foto.dica}
-        ratio="3 / 4"
+        ratio="4 / 5"
         sizes="(min-width: 1024px) 38vw, 100vw"
       />
     </div>

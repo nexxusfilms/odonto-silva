@@ -14,11 +14,13 @@ export const site = {
   marca: 'Odonto Silva',
   profissional: {
     nome: 'Dra. Amanda',
-    nomeCompleto: '[INSERIR NOME COMPLETO DA DRA. AMANDA]',
+    nomeCompleto: 'Amanda Amabile Silva',
     profissao: 'Cirurgiã-dentista',
-    cro: '[INSERIR Nº CRO-SP]',
-    // Só preencher se houver RQE (especialidade registrada no CRO).
-    especialidade: '[INSERIR ESPECIALIDADE, SE HOUVER RQE]',
+    cro: '145931',
+    // Sem registro de especialista (RQE) no CRO: o CFO não permite usar
+    // "especialista". Se o registro sair, trocar aqui e preencher `rqe`.
+    especialidade: 'Pós-graduação em Ortodontia',
+    rqe: '',
   },
 
   // Inscrição da clínica (pessoa jurídica) e responsável técnico, exigidos
@@ -29,39 +31,56 @@ export const site = {
   },
 
   endereco: {
-    rua: '[INSERIR ENDEREÇO]',
+    rua: 'R. Domingos Afonso Sertão, 97',
+    // Conforme o perfil da clínica no Google (CEP 04914 é da capital, zona sul).
     bairro: 'Piraporinha',
-    cidade: 'Diadema',
+    cidade: 'São Paulo',
     uf: 'SP',
-    cep: '[INSERIR CEP]',
-    referencia: '[INSERIR PONTO DE REFERÊNCIA]',
+    cep: '04914-000',
+    referencia: 'Em frente à Fit Class M’Boi Mirim',
+    // Coordenadas do pino da clínica no Google Maps (usadas no botão do Uber e no Schema.org).
+    geo: { lat: -23.673476, lng: -46.7432316 },
   },
 
   // Somente números, com DDI e DDD. Ex.: 5511999999999
-  whatsapp: '[INSERIR WHATSAPP]',
-  telefone: '[INSERIR TELEFONE]',
+  whatsapp: '5511981982422',
+  telefone: '(11) 98198-2422',
 
+  // Conforme o perfil da clínica no Google. `dias` e `abre`/`fecha` alimentam o Schema.org.
   horarios: [
-    { dias: 'Segunda a sexta', horas: '[INSERIR HORÁRIO]' },
-    { dias: 'Sábado', horas: '[INSERIR HORÁRIO OU REMOVER]' },
+    {
+      dias: 'Segunda a sexta',
+      horas: '9h às 18h',
+      diasSchema: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      abre: '09:00',
+      fecha: '18:00',
+    },
+    { dias: 'Sábado', horas: '9h às 13h', diasSchema: ['Saturday'], abre: '09:00', fecha: '13:00' },
+    { dias: 'Domingo', horas: 'Fechado' },
   ],
 
   links: {
-    instagram: '[INSERIR LINK DO INSTAGRAM]',
-    instagramUser: '[@INSERIR]',
-    googlePerfil: '[INSERIR LINK DO PERFIL NO GOOGLE]',
-    googleAvaliacoes: '[INSERIR LINK DAS AVALIAÇÕES NO GOOGLE]',
+    instagram: 'https://www.instagram.com/odontosilva/',
+    instagramUser: '@odontosilva',
+    googlePerfil: 'https://maps.app.goo.gl/e4PNuXCWJLFSk5826',
+    googleAvaliacoes: 'https://maps.app.goo.gl/e4PNuXCWJLFSk5826',
     // Link "compartilhar > incorporar mapa" do Google Maps (só a URL do src).
-    mapaEmbed: '[INSERIR URL DO MAPA INCORPORADO]',
+    mapaEmbed: 'https://maps.google.com/maps?q=Odonto%20Silva%2C%20R.%20Domingos%20Afonso%20Sert%C3%A3o%2C%2097%2C%20S%C3%A3o%20Paulo&z=17&output=embed',
+  },
+
+  // Google Tag Manager (formato GTM-XXXXXXX). Enquanto vazio, os cliques já
+  // vão para o dataLayer, mas nenhuma ferramenta externa é carregada.
+  rastreamento: {
+    gtmId: '[INSERIR ID DO GOOGLE TAG MANAGER]',
   },
 
   // Mensagem padrão que abre no WhatsApp.
   mensagemWhatsapp: 'Oi, Dra. Amanda! Vim pelo site e gostaria de agendar uma avaliação.',
 
   seo: {
-    titulo: 'Dra. Amanda | Odonto Silva · Dentista em Piraporinha, Diadema',
+    titulo: 'Dra. Amanda | Odonto Silva · Dentista em Piraporinha, São Paulo',
     descricao:
-      'Consultório da Dra. Amanda em Piraporinha, Diadema. A mesma dentista do primeiro exame ao retorno: avaliação com plano explicado, limpeza, gengiva, clareamento e urgências. Agende pelo WhatsApp.',
+      'Consultório da Dra. Amanda em Piraporinha, zona sul de São Paulo. A mesma dentista do primeiro exame ao retorno: avaliação com plano explicado, limpeza, gengiva, clareamento e urgências. Agende pelo WhatsApp.',
     ogImage: '/og-image.jpg', // [INSERIR IMAGEM 1200x630 COM FOTO REAL]
   },
 } as const;

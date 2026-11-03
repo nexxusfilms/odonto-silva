@@ -1,0 +1,120 @@
+---
+/**
+ * Avaliações: o Planejamento coloca o Google como principal fator de
+ * escolha (85%). Os trechos são literais e cada um leva à avaliação
+ * original; depoimentos no site são zona cinza no CFO (ver home.ts).
+ */
+import { avaliacoes } from '../../content/home';
+import { site, isFilled } from '../../config/site';
+import Button from '../Button.astro';
+import Pendencia from '../Pendencia.astro';
+
+const linkAvaliacoes = isFilled(site.links.googleAvaliacoes) ? site.links.googleAvaliacoes : '#';
+---
+
+<section id="avaliacoes" class="section reviews" aria-labelledby="reviews-titulo">
+  <div class="container">
+    <header class="reviews__head">
+      <div>
+        <h2 id="reviews-titulo" class="h2">{avaliacoes.titulo}</h2>
+        <p class="reviews__intro">{avaliacoes.texto}</p>
+      </div>
+      <Button href={linkAvaliacoes} variant="ghost" track="avaliacoes_ler_google">{avaliacoes.cta}</Button>
+    </header>
+
+    <ul class="reviews__list">
+      {
+        avaliacoes.depoimentos.map((d, i) => (
+          <li>
+            <figure>
+              <blockquote>
+                <p>“{d.texto}”</p>
+              </blockquote>
+              <figcaption>
+                {d.autor} ·{' '}
+                <a href={d.link} target="_blank" rel="noopener" data-track={`avaliacao_${i + 1}_google`}>
+                  avaliação no Google
+                </a>
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+    <Pendencia texto={avaliacoes.depoimentosValidar} />
+
+    <p class="reviews__ask">
+      {avaliacoes.pedido}
+      <Button href={linkAvaliacoes} variant="text" track="avaliacoes_deixar_google">{avaliacoes.ctaPedido}</Button>
+    </p>
+  </div>
+</section>
+
+<style>
+  .reviews {
+    background: var(--nevoa-rosa);
+  }
+  .reviews__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px 48px;
+  }
+  .reviews__intro {
+    margin-top: 16px;
+    max-width: 32rem;
+  }
+  .reviews__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 clamp(24px, 3vw, 48px);
+    margin: clamp(40px, 5vw, 56px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .reviews__list li {
+    padding-top: 24px;
+    border-top: 1.5px solid var(--rosa-profundo);
+  }
+  .reviews__list figure,
+  .reviews__list blockquote {
+    margin: 0;
+  }
+  .reviews__list blockquote p {
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--tinta);
+  }
+  .reviews__list figcaption {
+    margin-top: 14px;
+    font-size: var(--t-small);
+    color: var(--texto-suave);
+  }
+  .reviews__list a {
+    color: var(--rosa-profundo);
+    text-underline-offset: 3px;
+  }
+  .reviews__ask {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 24px;
+    margin-top: clamp(40px, 5vw, 56px);
+    font-size: var(--t-small);
+  }
+
+  @media (max-width: 1023px) {
+    .reviews__list {
+      grid-template-columns: 1fr;
+    }
+    .reviews__list li {
+      padding-block: 20px;
+      border-top: 0;
+      border-bottom: 1px solid rgb(196 8 90 / 0.25);
+    }
+    .reviews__list li:first-child {
+      border-top: 1.5px solid var(--rosa-profundo);
+    }
+  }
+</style>

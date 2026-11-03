@@ -12,14 +12,14 @@ const lista = faq.filter((f) => f.ativo);
       <span class="kicker">{faqIntro.kicker}</span>
       <h2 id="faq-titulo" class="h2">{faqIntro.titulo}</h2>
       <p class="faq__foot">{faqIntro.rodape}</p>
-      <Button whatsapp="Oi, Dra. Amanda! Vim pelo site e tenho uma dúvida." variant="text">Mandar minha dúvida</Button>
+      <Button whatsapp="Oi, Dra. Amanda! Vim pelo site e tenho uma dúvida." variant="text" track="duvidas_whatsapp">Mandar minha dúvida</Button>
     </header>
 
     <div class="faq__list">
       {
-        lista.map((f) => (
+        lista.map((f, i) => (
           <details class="faq__item">
-            <summary>
+            <summary data-track={`duvida_${i + 1}_abrir`}>
               <h3>{f.pergunta}</h3>
               <span class="faq__icon" aria-hidden="true" />
             </summary>

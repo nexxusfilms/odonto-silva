@@ -3,11 +3,15 @@ import logo from '../assets/brand/logo.svg';
 import { site, isFilled } from '../config/site';
 import { nav } from '../config/nav';
 import { whatsappHref } from '../lib/whatsapp';
+import Pendencia from './Pendencia.astro';
+import Icon from './Icon.astro';
+import { flags } from '../config/flags';
 
 const p = site.profissional;
 const e = site.endereco;
 const base = Astro.url.pathname === '/' ? '' : '/';
 const ano = new Date().getFullYear();
+const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencias;
 ---
 
 <footer class="footer">
@@ -17,26 +21,43 @@ const ano = new Date().getFullYear();
       <p class="footer__ident">
         {p.nome} · {p.profissao}<br />
         CRO-SP {p.cro}<br />
-        {p.especialidade}
+        {p.especialidade}{isFilled(p.rqe) && ` · RQE ${p.rqe}`}
       </p>
     </div>
 
     <div>
       <h2 class="footer__title">Endereço</h2>
-      <address>
-        {e.rua}<br />
-        {e.bairro}, {e.cidade} - {e.uf}<br />
-        {e.cep}
+      <address class="footer__item">
+        <Icon name="pin" class="footer__icon" />
+        <span>
+          {e.rua}<br />
+          {e.bairro}, {e.cidade} - {e.uf}<br />
+          {e.cep}
+        </span>
       </address>
     </div>
 
     <div>
       <h2 class="footer__title">Contato</h2>
       <ul class="footer__list">
-        <li><a href={whatsappHref()}>WhatsApp</a></li>
-        <li>{site.telefone}</li>
-        <li><a href={isFilled(site.links.instagram) ? site.links.instagram : '#'}>Instagram {site.links.instagramUser}</a></li>
-        <li><a href={isFilled(site.links.googlePerfil) ? site.links.googlePerfil : '#'}>Google</a></li>
+        <li>
+          <a class="footer__item" data-track="rodape_whatsapp" href={whatsappHref()} aria-label={`WhatsApp ${site.telefone}`}>
+            <Icon name="whatsapp" class="footer__icon" />
+            <span>{site.telefone}</span>
+          </a>
+        </li>
+        <li>
+          <a class="footer__item" data-track="rodape_instagram" href={isFilled(site.links.instagram) ? site.links.instagram : '#'} aria-label={`Instagram ${site.links.instagramUser}`}>
+            <Icon name="instagram" class="footer__icon" />
+            <span>{site.links.instagramUser}</span>
+          </a>
+        </li>
+        <li>
+          <a class="footer__item" data-track="rodape_google" href={isFilled(site.links.googlePerfil) ? site.links.googlePerfil : '#'}>
+            <Icon name="google" class="footer__icon" />
+            <span>Avaliações no Google</span>
+          </a>
+        </li>
       </ul>
     </div>
 
@@ -45,13 +66,25 @@ const ano = new Date().getFullYear();
       <ul class="footer__list">
         {nav.map((item) => <li><a href={`${base}${item.href}`}>{item.label}</a></li>)}
         <li><a href="/politica-de-privacidade">Política de privacidade</a></li>
+        {
+          avisoCookies && (
+            <li>
+              <button type="button" class="footer__link" data-cookies-abrir data-track="rodape_preferencias_cookies">
+                Preferências de cookies
+              </button>
+            </li>
+          )
+        }
       </ul>
     </nav>
   </div>
 
   <div class="container footer__legal">
     <p>
-      {site.marca} · Inscrição CRO-SP {site.clinica.inscricaoCro} · Responsável técnica: {site.clinica.responsavelTecnico}
+      {site.marca}
+      {isFilled(site.clinica.inscricaoCro) && ` · Inscrição CRO-SP ${site.clinica.inscricaoCro}`}
+      {isFilled(site.clinica.responsavelTecnico) && ` · Responsável técnica: ${site.clinica.responsavelTecnico}`}
+      <Pendencia texto={isFilled(site.clinica.inscricaoCro) ? undefined : 'Inscrição da clínica no CRO-SP e responsável técnica'} />
     </p>
     <p>© {ano} {site.marca}. As informações deste site não substituem uma avaliação clínica.</p>
   </div>
@@ -91,12 +124,31 @@ const ano = new Date().getFullYear();
   }
   .footer__list {
     display: grid;
-    gap: 6px;
+    gap: 12px;
+  }
+  .footer__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .footer :global(.footer__icon) {
+    margin-top: 0.2em;
+    color: var(--petroleo-profundo);
   }
   .footer a {
     text-decoration: none;
   }
-  .footer a:hover {
+  .footer__link {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .footer a:hover,
+  .footer__link:hover {
     text-decoration: underline;
     text-underline-offset: 3px;
   }

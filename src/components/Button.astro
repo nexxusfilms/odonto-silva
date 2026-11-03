@@ -10,9 +10,11 @@ interface Props {
   variant?: 'primary' | 'ghost' | 'text';
   size?: 'sm' | 'md' | 'lg';
   class?: string;
+  /** Nome fixo do clique no rastreamento (ver docs/rastreamento.md). */
+  track?: string;
 }
 
-const { href, whatsapp, variant = 'primary', size = 'md', class: className = '' } = Astro.props;
+const { href, whatsapp, variant = 'primary', size = 'md', class: className = '', track } = Astro.props;
 const url = whatsapp ? whatsappHref(typeof whatsapp === 'string' ? whatsapp : undefined) : href;
 const external = whatsapp && whatsappIsExternal();
 ---
@@ -20,6 +22,7 @@ const external = whatsapp && whatsappIsExternal();
 <a
   href={url}
   class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  data-track={track}
   {...external ? { target: '_blank', rel: 'noopener' } : {}}>
   <slot />
   {variant === 'text' && <span class="btn__arrow" aria-hidden="true">→</span>}
