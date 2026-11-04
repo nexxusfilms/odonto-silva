@@ -1,7 +1,8 @@
 ---
 /**
- * Botão flutuante discreto. Aparece depois da primeira dobra e some
- * quando o CTA final está na tela (evita dois convites ao mesmo tempo).
+ * Botão flutuante. Aparece assim que o botão de agendar do topo sai da
+ * tela (no celular o topo ocupa quase duas telas) e some quando o CTA
+ * final está na tela (evita dois convites ao mesmo tempo).
  */
 import { whatsappHref, whatsappIsExternal } from '../lib/whatsapp';
 const external = whatsappIsExternal();
@@ -25,7 +26,7 @@ const external = whatsappIsExternal();
 
 <script>
   const btn = document.querySelector<HTMLElement>('[data-wa-float]');
-  const hero = document.querySelector('[data-hero]');
+  const hero = document.querySelector('[data-hero] .hero__ctas') ?? document.querySelector('[data-hero]');
   const final = document.querySelector('[data-cta-final]');
   if (btn && 'IntersectionObserver' in window) {
     let heroVisible = true;
