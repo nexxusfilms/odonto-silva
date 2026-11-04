@@ -9,7 +9,8 @@ const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencia
 <Base title={`Política de privacidade | ${site.marca}`} description="Como a Odonto Silva trata os dados de quem visita o site e entra em contato.">
   <article class="container legal">
     <h1>Política de privacidade</h1>
-    <p class="legal__meta">Última atualização: [INSERIR DATA]. Texto-base a ser revisado por assessoria jurídica.</p>
+    {/* Texto-base: pedir revisão de assessoria jurídica. */}
+    <p class="legal__meta">Última atualização: 3 de novembro de 2026.</p>
 
     <h2>Quem somos</h2>
     <p>
@@ -68,7 +69,7 @@ const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencia
     <h2>Seus direitos (LGPD)</h2>
     <p>
       Você pode pedir a qualquer momento acesso, correção ou exclusão dos seus dados, conforme a Lei nº 13.709/2018.
-      Basta falar com a gente pelo WhatsApp ou pelo e-mail [INSERIR E-MAIL].
+      Basta falar com a gente pelo WhatsApp {site.telefone}.
     </p>
 
     <p><a href="/">Voltar para o início</a></p>

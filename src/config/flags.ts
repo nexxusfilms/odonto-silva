@@ -3,5 +3,5 @@
  * com a Dra. Amanda. Desligue (false) antes de publicar.
  */
 export const flags = {
-  mostrarPendencias: true,
+  mostrarPendencias: false,
 };

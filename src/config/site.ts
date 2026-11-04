@@ -37,7 +37,7 @@ export const site = {
     cidade: 'São Paulo',
     uf: 'SP',
     cep: '04914-000',
-    referencia: 'Em frente à Fit Class M’Boi Mirim',
+    referencia: 'Em frente à Academia FitClass',
     // Coordenadas do pino da clínica no Google Maps (usadas no botão do Uber e no Schema.org).
     geo: { lat: -23.673476, lng: -46.7432316 },
   },
