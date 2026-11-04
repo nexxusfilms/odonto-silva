@@ -19,7 +19,8 @@ interface Props {
 }
 
 const { title = site.seo.titulo, description = site.seo.descricao, schemas = [], noindex = false } = Astro.props;
-const canonical = new URL(Astro.url.pathname, site.url).toString();
+// Sem barra no final, igual ao sitemap.xml.
+const canonical = new URL(Astro.url.pathname.replace(/(.)\/$/, '$1'), site.url).toString();
 const ogImage = new URL(site.seo.ogImage, site.url).toString();
 const gtmId = isFilled(site.rastreamento.gtmId) ? site.rastreamento.gtmId : null;
 // O aviso de cookies só faz sentido com o GTM ativo; na prévia ele aparece para aprovação.
