@@ -1,0 +1,33 @@
+---
+/**
+ * Página de destino das campanhas do Google Ads: a página inicial com
+ * títulos nos termos de busca (src/content/google-ads.ts). Fica fora do
+ * Google orgânico (noindex) e do sitemap.
+ */
+import Base from '../layouts/Base.astro';
+import Hero from '../components/sections/Hero.astro';
+import About from '../components/sections/About.astro';
+import Differentials from '../components/sections/Differentials.astro';
+import Process from '../components/sections/Process.astro';
+import Treatments from '../components/sections/Treatments.astro';
+import Clinic from '../components/sections/Clinic.astro';
+import Credentials from '../components/sections/Credentials.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import Faq from '../components/sections/Faq.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import { heroAds, tratamentosAds } from '../content/google-ads';
+import { site } from '../config/site';
+---
+
+<Base title={`Dentista em Piraporinha | ${site.marca} · Dra. Amanda`} noindex>
+  <Hero variante={heroAds} />
+  <About />
+  <Differentials />
+  <Process />
+  <Treatments variante={tratamentosAds} />
+  <Clinic />
+  <Credentials />
+  <Reviews />
+  <Faq />
+  <FinalCta />
+</Base>

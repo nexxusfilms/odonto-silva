@@ -4,19 +4,30 @@ import Button from '../Button.astro';
 import Photo from '../Photo.astro';
 import Brush from '../Brush.astro';
 import fotoHero from '../../assets/fotos/dra-amanda-hero.jpg';
+
+interface Props {
+  /** Textos de outra página (ex.: /google-ads). O texto de apoio vira H2. */
+  variante?: { titulo: string[]; texto: string; ctaPrincipal: string };
+}
+
+const { variante } = Astro.props;
+const titulo = variante?.titulo ?? hero.titulo;
+const texto = variante?.texto ?? hero.texto;
+const cta = variante?.ctaPrincipal ?? hero.ctaPrincipal;
+const Apoio = variante ? 'h2' : 'p';
 ---
 
-<section class="hero" data-hero aria-labelledby="hero-titulo">
+<section class:list={['hero', { 'hero--longo': variante }]} data-hero aria-labelledby="hero-titulo">
   <div class="container hero__grid">
     <div class="hero__text">
       <p class="hero__eyebrow">{hero.eyebrow}</p>
-      <h1 id="hero-titulo" class="hero__title">
-        <span>{hero.titulo[0]}</span>
-        <span class="rosa">{hero.titulo[1]}</span>
+      <h1 id="hero-titulo" class:list={['hero__title', { 'hero__title--longo': variante }]}>
+        <span>{titulo[0]}</span>
+        <span class="rosa">{titulo[1]}</span>
       </h1>
-      <p class="hero__lead lead">{hero.texto}</p>
+      <Apoio class="hero__lead lead">{texto}</Apoio>
       <div class="hero__ctas">
-        <Button whatsapp size="lg" track="topo_agendar_whatsapp">{hero.ctaPrincipal}</Button>
+        <Button whatsapp size="lg" track="topo_agendar_whatsapp">{cta}</Button>
         <Button href="#como-funciona" variant="text" track="topo_como_funciona">{hero.ctaSecundario}</Button>
       </div>
     </div>
@@ -73,8 +84,19 @@ import fotoHero from '../../assets/fotos/dra-amanda-hero.jpg';
   .hero__title span {
     display: block;
   }
+  /* Título com termos de busca (/google-ads): mais longo, corpo menor. */
+  .hero__title--longo {
+    font-size: clamp(2.1rem, 1.3rem + 3vw, 3.75rem);
+    line-height: 1.04;
+  }
   .hero__lead {
     max-width: 34rem;
+    /* Quando é H2, mantém a aparência de texto de apoio. */
+    font-family: var(--f-texto);
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.6;
+    color: var(--texto);
     margin-top: clamp(24px, 3vw, 36px);
   }
   .hero__ctas {
@@ -119,7 +141,19 @@ import fotoHero from '../../assets/fotos/dra-amanda-hero.jpg';
     transform: rotate(-12deg);
   }
 
-  /* Notebook: a coluna de texto encosta na foto; a anotação desce para baixo dela. */
+  /* Notebook (e o título longo do /google-ads): o texto encosta na foto,
+     então a anotação desce para baixo dela. */
+  @media (min-width: 1024px) {
+    .hero--longo .hero__note {
+      right: auto;
+      left: 24px;
+      bottom: auto;
+      top: calc(100% + 14px);
+    }
+    .hero--longo .hero__note svg {
+      display: none;
+    }
+  }
   @media (min-width: 1024px) and (max-width: 1399px) {
     .hero__note {
       right: auto;

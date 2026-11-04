@@ -11,7 +11,7 @@ export const hero = {
   eyebrow: 'Odonto Silva · Dentista em Piraporinha, São Paulo',
   titulo: ['Aqui, o seu tratamento', 'não muda de mão.'],
   texto:
-    'Cirurgiã-dentista, estou na clínica todos os dias. Quem avalia o seu caso sou eu. E sou eu que resolvo, acompanho e respondo suas dúvidas até o retorno.',
+    'Sou cirurgiã-dentista e estou na clínica todos os dias. Eu mesma avalio cada caso, defino o melhor tratamento e acompanho você de perto, esclarecendo suas dúvidas até o retorno.',
   ctaPrincipal: 'Agendar avaliação',
   ctaSecundario: 'Como é a primeira consulta',
   anotacao: 'oi, eu sou a Amanda',

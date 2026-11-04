@@ -9,7 +9,14 @@ import Button from '../Button.astro';
 import Pendencia from '../Pendencia.astro';
 import Brush from '../Brush.astro';
 
+interface Props {
+  /** Títulos de outra página (ex.: /google-ads), pelo slug do tratamento. */
+  variante?: { titulo: string; nomes: Record<string, string> };
+}
+
+const { variante } = Astro.props;
 const lista = tratamentos.filter((t) => t.ativo);
+const nome = (t: (typeof lista)[number]) => variante?.nomes[t.slug] ?? t.nome;
 ---
 
 <section id="tratamentos" class="section treat" aria-labelledby="treat-titulo">
@@ -18,7 +25,9 @@ const lista = tratamentos.filter((t) => t.ativo);
     <header class="treat__head">
       <div>
         <span class="kicker">{tratamentosIntro.kicker}</span>
-        <h2 id="treat-titulo" class="h2">{tratamentosIntro.titulo}</h2>
+        <h2 id="treat-titulo" class:list={['h2', { 'treat__title--longo': variante }]}>
+          {variante?.titulo ?? tratamentosIntro.titulo}
+        </h2>
       </div>
       <p class="lead treat__intro">{tratamentosIntro.intro}</p>
     </header>
@@ -30,7 +39,7 @@ const lista = tratamentos.filter((t) => t.ativo);
             <details class="treat__item" name="tratamentos">
               <summary class="treat__summary" data-track={`tratamento_${t.slug}_abrir`}>
                 <span class="treat__num">{String(i + 1).padStart(2, '0')}</span>
-                <h3 class="treat__name">{t.nome}</h3>
+                <h3 class:list={['treat__name', { 'treat__name--longo': variante }]}>{nome(t)}</h3>
                 <p class="treat__resumo">{t.resumo}</p>
                 <span class="treat__icon" aria-hidden="true" />
               </summary>
@@ -122,6 +131,12 @@ const lista = tratamentos.filter((t) => t.ativo);
     font-size: clamp(1.35rem, 1.1rem + 1vw, 2rem);
     line-height: 1.15;
     transition: color 250ms var(--ease);
+  }
+  .treat__title--longo {
+    font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem);
+  }
+  .treat__name--longo {
+    font-size: clamp(1.15rem, 1rem + 0.55vw, 1.5rem);
   }
   .treat__summary:hover .treat__name {
     color: var(--rosa-profundo);

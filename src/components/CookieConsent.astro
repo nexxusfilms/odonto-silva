@@ -97,9 +97,10 @@
 </script>
 
 <style>
+  /* Canto direito: a coluna da esquerda tem o título e o botão de agendar. */
   .cookies {
     position: fixed;
-    left: max(16px, env(safe-area-inset-left));
+    right: max(16px, env(safe-area-inset-right));
     bottom: max(16px, env(safe-area-inset-bottom));
     z-index: 50;
     width: min(400px, calc(100vw - 32px));
@@ -208,10 +209,30 @@
     text-underline-offset: 3px;
   }
 
-  /* No celular o aviso ocupa a largura toda; o botão flutuante espera. */
+  /* Enquanto o aviso está aberto, o botão flutuante (mesmo canto) espera. */
+  :global(html.cookies-aberto .wa-float) {
+    visibility: hidden;
+  }
+
+  /* No celular o aviso ocupa a largura toda: versão compacta, para cobrir
+     o mínimo do topo da página. */
   @media (max-width: 639px) {
-    :global(html.cookies-aberto .wa-float) {
-      visibility: hidden;
+    .cookies {
+      right: 8px;
+      bottom: max(8px, env(safe-area-inset-bottom));
+      width: calc(100vw - 16px);
+      padding: 14px 16px 12px;
+      font-size: 0.8125rem;
+      line-height: 1.45;
+    }
+    .cookies__titulo {
+      display: none;
+    }
+    .cookies__acoes {
+      margin-top: 10px;
+    }
+    .cookies__btn {
+      min-height: 40px;
     }
   }
 </style>

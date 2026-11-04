@@ -71,7 +71,7 @@ export const site = {
   // Google Tag Manager (formato GTM-XXXXXXX). Enquanto vazio, os cliques já
   // vão para o dataLayer, mas nenhuma ferramenta externa é carregada.
   rastreamento: {
-    gtmId: '[INSERIR ID DO GOOGLE TAG MANAGER]',
+    gtmId: 'GTM-5BXTVN6M',
   },
 
   // Mensagem padrão que abre no WhatsApp.

@@ -1,9 +1,9 @@
 ---
 import logo from '../assets/brand/logo.svg';
 import Button from './Button.astro';
-import { nav } from '../config/nav';
+import { nav, baseDoMenu } from '../config/nav';
 
-const base = Astro.url.pathname === '/' ? '' : '/';
+const base = baseDoMenu(Astro.url.pathname);
 ---
 
 <header class="header" data-header>

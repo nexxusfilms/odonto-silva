@@ -4,11 +4,18 @@ Todo clique em botão, link ou item expansível do site gera um evento no `dataL
 
 ## Como ativar
 
-1. Crie o contêiner no Google Tag Manager (tipo Web).
-2. Coloque o ID (`GTM-XXXXXXX`) em `src/config/site.ts`, no campo `rastreamento.gtmId`.
-3. Publique o site. O GTM passa a carregar em todas as páginas.
+O contêiner **GTM-5BXTVN6M** já está instalado em todas as páginas (`rastreamento.gtmId` em `src/config/site.ts`). O site usa o carregador padrão do GTM, logo depois do Consent Mode.
 
-Enquanto o ID não estiver preenchido, os eventos continuam indo para o `dataLayer`, mas nenhuma ferramenta externa é carregada.
+Não é preciso colar o `gtag('js', ...)` no site: GA4 e Google Ads são configurados como tags dentro do GTM.
+
+## Página das campanhas: /google-ads
+
+`https://www.odontosilva.com.br/google-ads` é a página inicial com títulos nos termos de busca ("dentista em Piraporinha", "limpeza dental", "dentista de urgência"...). Os textos ficam em `src/content/google-ads.ts`.
+
+- Use essa URL como página final dos anúncios do Google Ads.
+- Ela tem `noindex` e não está no sitemap, para não competir no Google orgânico com a página inicial.
+- Os botões têm os mesmos nomes (`clique_nome`) da página inicial. Para separar os resultados, use a variável **Page Path** do GTM (`/google-ads`).
+- O menu rola dentro da própria página, então o visitante não sai dela.
 
 ## Eventos
 
