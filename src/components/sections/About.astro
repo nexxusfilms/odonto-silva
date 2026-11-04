@@ -10,13 +10,13 @@ import fotoSobre from '../../assets/fotos/dra-amanda-sobre.jpg';
 <section id="sobre" class="section about" aria-labelledby="sobre-titulo">
   <div class="container about__grid">
     <div class="about__media" data-reveal>
-      <Brush shape="arc" color="petroleo" class="about__arc" />
       <Photo
         image={fotoSobre}
         alt={sobre.foto.alt}
         label={sobre.foto.label}
         hint={sobre.foto.dica}
         ratio="4 / 5"
+        frame="bl"
         sizes="(min-width: 1024px) 38vw, 100vw"
       />
     </div>
@@ -62,13 +62,6 @@ import fotoSobre from '../../assets/fotos/dra-amanda-sobre.jpg';
     position: relative;
     position: sticky;
     top: calc(var(--header-h) + 32px);
-  }
-  .about__media :global(.about__arc) {
-    position: absolute;
-    width: 46%;
-    left: -12%;
-    bottom: -9%;
-    z-index: 1;
   }
   .about__text {
     grid-column: 7 / span 6;

@@ -5,8 +5,8 @@
  * importar o arquivo de src/assets/fotos e passar em `image`: o layout
  * não muda (a proporção é fixa).
  *
- * `frame` reproduz o recurso das peças do Manual: duas linhas em
- * azul-petróleo cruzando o canto da foto.
+ * `frame` coloca o símbolo do logo (as duas formas de dente, petróleo
+ * atrás e rosa na frente) sobre um canto da foto.
  */
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -41,6 +41,20 @@ const {
 <figure
   class:list={['photo', frame && `photo--frame-${frame}`, className]}
   style={`--ratio: ${ratio}; --tilt: ${tilt}deg;`}>
+  {
+    frame && (
+      <svg class="photo__mark" viewBox="0 0 120 110" aria-hidden="true">
+        <path
+          class="photo__mark-petroleo"
+          d="M10 14C24 4 52 2 64 6c8 3 9 12 6 26-5 24-16 52-30 64-9 8-19 4-24-8C8 70 2 44 3 28c0-6 2-11 7-14Z"
+        />
+        <path
+          class="photo__mark-rosa"
+          d="M104 8c8 2 11 9 11 20 0 26-4 54-12 68-5 9-13 11-21 5C66 89 46 68 38 52c-4-8-2-15 6-20 16-10 42-22 54-24 2 0 4 0 6 0Z"
+        />
+      </svg>
+    )
+  }
   <div class="photo__inner">
     {
       image ? (
@@ -108,55 +122,42 @@ const {
     opacity: 0.85;
   }
 
-  /* Linhas cruzando o canto (Manual da Marca, páginas 2 e 4) */
-  .photo[class*='photo--frame']::before,
-  .photo[class*='photo--frame']::after {
-    content: '';
+  /* Símbolo do logo sobre um canto da foto. O deslocamento acompanha o
+     tamanho do símbolo, para ele não invadir textos e botões ao redor. */
+  .photo__mark {
+    --m: clamp(64px, 22%, 132px);
+    --fora: calc(var(--m) * -0.3);
     position: absolute;
-    z-index: 1;
-    background: var(--petroleo);
+    z-index: 2;
+    width: var(--m);
+    height: auto;
     pointer-events: none;
   }
-  .photo--frame-tl::before {
-    height: 6px;
-    left: -7%;
-    width: 62%;
-    top: -14px;
-    transform: rotate(-1.2deg);
+  .photo__mark-petroleo {
+    fill: var(--petroleo);
   }
-  .photo--frame-tl::after {
-    width: 6px;
-    top: -9%;
-    height: 72%;
-    left: -14px;
-    transform: rotate(1deg);
+  .photo__mark-rosa {
+    fill: var(--rosa);
   }
-  .photo--frame-bl::before {
-    height: 6px;
-    left: -9%;
-    width: 64%;
-    bottom: -16px;
-    transform: rotate(1.5deg);
+  .photo--frame-tl .photo__mark {
+    top: var(--fora);
+    left: var(--fora);
+    transform: rotate(-8deg);
   }
-  .photo--frame-bl::after {
-    width: 6px;
-    bottom: -12%;
-    height: 66%;
-    left: -12px;
-    transform: rotate(2deg);
+  .photo--frame-bl .photo__mark {
+    bottom: var(--fora);
+    left: var(--fora);
+    transform: rotate(-18deg);
   }
-  .photo--frame-br::before {
-    height: 6px;
-    right: -8%;
-    width: 58%;
-    bottom: -15px;
-    transform: rotate(-1.4deg);
+  .photo--frame-br .photo__mark {
+    bottom: var(--fora);
+    right: var(--fora);
+    transform: rotate(10deg);
   }
-  .photo--frame-br::after {
-    width: 6px;
-    bottom: -10%;
-    height: 60%;
-    right: -13px;
-    transform: rotate(-1deg);
+  /* Até o tablet a foto pode encostar na borda da tela: o símbolo sai menos. */
+  @media (max-width: 1023px) {
+    .photo__mark {
+      --fora: calc(var(--m) * -0.12);
+    }
   }
 </style>

@@ -59,10 +59,11 @@ const external = whatsappIsExternal();
     height: 52px;
     padding: 0 20px 0 16px;
     border-radius: 999px;
-    background: var(--branco);
-    color: var(--rosa-profundo);
-    border: 1.5px solid var(--rosa-profundo);
-    box-shadow: 0 6px 20px rgb(17 17 17 / 0.08);
+    /* Verde do WhatsApp, escurecido para o texto branco ter contraste AA. */
+    background: #0e7e3e;
+    color: var(--branco);
+    border: 0;
+    box-shadow: 0 8px 24px rgb(14 126 62 / 0.35);
     font: 650 0.9375rem var(--f-titulo);
     text-decoration: none;
     opacity: 0;
@@ -80,8 +81,24 @@ const external = whatsappIsExternal();
     pointer-events: auto;
   }
   .wa-float:hover {
-    background: var(--rosa-profundo);
-    color: var(--branco);
+    background: #0a6531;
+  }
+  /* Um pulso discreto quando o botão aparece, sem ficar piscando. */
+  @media (prefers-reduced-motion: no-preference) {
+    .wa-float.is-visible::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: 0 0 0 0 rgb(37 211 102 / 0.55);
+      animation: wa-pulso 1.8s var(--ease) 0.4s 2;
+      pointer-events: none;
+    }
+  }
+  @keyframes wa-pulso {
+    to {
+      box-shadow: 0 0 0 16px rgb(37 211 102 / 0);
+    }
   }
   .wa-float:not(.is-visible) {
     visibility: hidden;
