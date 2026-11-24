@@ -3,9 +3,12 @@ import { flags } from '../config/flags';
 
 interface Props {
   texto?: string;
+  /** Mostra mesmo com `mostrarPendencias` desligado (páginas em revisão). */
+  forcar?: boolean;
+  rotulo?: string;
 }
 
-const { texto } = Astro.props;
+const { texto, forcar = false, rotulo = 'VALIDAR' } = Astro.props;
 ---
 
-{flags.mostrarPendencias && texto && <span class="pendencia">VALIDAR: {texto}</span>}
+{(flags.mostrarPendencias || forcar) && texto && <span class="pendencia">{rotulo}: {texto}</span>}

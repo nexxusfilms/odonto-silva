@@ -16,9 +16,11 @@ interface Props {
   description?: string;
   schemas?: object[];
   noindex?: boolean;
+  /** Página de anúncio: sem menu nem links de navegação; WhatsApp com mensagem própria. */
+  landing?: { mensagem: string };
 }
 
-const { title = site.seo.titulo, description = site.seo.descricao, schemas = [], noindex = false } = Astro.props;
+const { title = site.seo.titulo, description = site.seo.descricao, schemas = [], noindex = false, landing } = Astro.props;
 // Sem barra no final, igual ao sitemap.xml.
 const canonical = new URL(Astro.url.pathname.replace(/(.)\/$/, '$1'), site.url).toString();
 const ogImage = new URL(site.seo.ogImage, site.url).toString();
@@ -121,12 +123,12 @@ const avisoCookies = !!gtmId || flags.mostrarPendencias;
       )
     }
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-    <Header />
+    <Header semMenu={!!landing} mensagem={landing?.mensagem} />
     <main id="conteudo">
       <slot />
     </main>
-    <Footer />
-    <WhatsAppFloat />
+    <Footer enxuto={!!landing} mensagem={landing?.mensagem} />
+    <WhatsAppFloat mensagem={landing?.mensagem} />
     {avisoCookies && <CookieConsent />}
 
     <script>

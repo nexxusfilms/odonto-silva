@@ -1,0 +1,51 @@
+---
+/**
+ * Página de destino do grupo "G5 — Implante / Protocolo" do Google Ads.
+ * Sem menu e sem links de navegação: o único caminho é o WhatsApp
+ * (regras do Daniel, Nexxus). Textos em src/content/implante.ts.
+ */
+import Base from '../layouts/Base.astro';
+import Hero from '../components/sections/Hero.astro';
+import Diferenca from '../components/sections/implante/Diferenca.astro';
+import Process from '../components/sections/Process.astro';
+import QuemCuida from '../components/sections/implante/QuemCuida.astro';
+import SemPreco from '../components/sections/implante/SemPreco.astro';
+import Faq from '../components/sections/Faq.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import { implante } from '../content/implante';
+import { site } from '../config/site';
+import { dentistSchema } from '../lib/schema';
+
+const m = implante.mensagem;
+const apoio = [
+  implante.soParticular ? 'Atendimento particular' : null,
+  'Segunda a sábado',
+  site.endereco.rua,
+]
+  .filter(Boolean)
+  .join(' · ');
+const duvidas = {
+  ...implante.duvidas,
+  itens: implante.soParticular ? [...implante.duvidas.itens, implante.duvidas.convenio] : implante.duvidas.itens,
+};
+---
+
+<Base
+  title={implante.seo.titulo}
+  description={implante.seo.descricao}
+  schemas={[dentistSchema()]}
+  noindex={implante.revisao}
+  landing={{ mensagem: m }}>
+  <Hero
+    variante={implante.hero}
+    mensagem={m}
+    track="implante_topo"
+    apoio={apoio}
+  />
+  <Diferenca />
+  <Process conteudo={implante.etapas} mensagem={m} track="implante_etapas" />
+  <QuemCuida />
+  <SemPreco />
+  <Faq conteudo={duvidas} mensagem={m} track="implante_duvida" />
+  <FinalCta conteudo={implante.final} mensagem={m} track="implante_final" />
+</Base>

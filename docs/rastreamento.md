@@ -17,6 +17,15 @@ Não é preciso colar o `gtag('js', ...)` no site: GA4 e Google Ads são configu
 - Os botões têm os mesmos nomes (`clique_nome`) da página inicial. Para separar os resultados, use a variável **Page Path** do GTM (`/google-ads`).
 - O menu rola dentro da própria página, então o visitante não sai dela.
 
+## Página de implante: /implante-dentario
+
+`https://www.odontosilva.com.br/implante-dentario` é o destino do grupo "G5 — Implante / Protocolo". Os textos ficam em `src/content/implante.ts`.
+
+- Sem menu e sem links para outras páginas: só o WhatsApp (e a política de privacidade no rodapé).
+- Todos os botões abrem o WhatsApp com a mensagem "Oi, Dra. Amanda! Vim pelo Google e quero agendar uma avaliação para implante."
+- Nomes de clique: `implante_topo_agendar_whatsapp`, `implante_etapas_whatsapp`, `implante_duvidas_whatsapp`, `implante_duvida_<n>_abrir`, `implante_final_agendar_whatsapp`, além de `cabecalho_agendar_whatsapp`, `flutuante_whatsapp` e `rodape_whatsapp`.
+- Enquanto `implante.revisao` for `true`, a página mostra as marcações CONFIRMAR, fica com `noindex` e fora do sitemap.
+
 ## Eventos
 
 | Evento | Quando dispara | Uso sugerido |

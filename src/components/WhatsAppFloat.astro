@@ -5,11 +5,17 @@
  * final está na tela (evita dois convites ao mesmo tempo).
  */
 import { whatsappHref, whatsappIsExternal } from '../lib/whatsapp';
+
+interface Props {
+  mensagem?: string;
+}
+
+const { mensagem } = Astro.props;
 const external = whatsappIsExternal();
 ---
 
 <a
-  href={whatsappHref()}
+  href={whatsappHref(mensagem)}
   class="wa-float"
   data-wa-float
   data-track="flutuante_whatsapp"

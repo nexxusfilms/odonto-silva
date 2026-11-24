@@ -3,29 +3,45 @@ import { faq, faqIntro } from '../../content/faq';
 import Pendencia from '../Pendencia.astro';
 import Button from '../Button.astro';
 
-const lista = faq.filter((f) => f.ativo);
+interface Pergunta {
+  pergunta: string;
+  resposta: string;
+  validar?: string;
+  confirmar?: string;
+}
+interface Props {
+  /** Perguntas e títulos de outra página (ex.: /implante-dentario). */
+  conteudo?: { kicker: string; titulo: string; rodape: string; itens: Pergunta[] };
+  mensagem?: string;
+  track?: string;
+}
+
+const { conteudo, mensagem = 'Oi, Dra. Amanda! Vim pelo site e tenho uma dúvida.', track = 'duvida' } = Astro.props;
+const intro = conteudo ?? faqIntro;
+const lista: Pergunta[] = conteudo?.itens ?? faq.filter((f) => f.ativo);
 ---
 
 <section id="duvidas" class="section faq" aria-labelledby="faq-titulo">
   <div class="container faq__grid">
     <header class="faq__head">
-      <span class="kicker">{faqIntro.kicker}</span>
-      <h2 id="faq-titulo" class="h2">{faqIntro.titulo}</h2>
-      <p class="faq__foot">{faqIntro.rodape}</p>
-      <Button whatsapp="Oi, Dra. Amanda! Vim pelo site e tenho uma dúvida." variant="text" track="duvidas_whatsapp">Mandar minha dúvida</Button>
+      <span class="kicker">{intro.kicker}</span>
+      <h2 id="faq-titulo" class="h2">{intro.titulo}</h2>
+      <p class="faq__foot">{intro.rodape}</p>
+      <Button whatsapp={mensagem} variant="text" track={`${track}s_whatsapp`}>Mandar minha dúvida</Button>
     </header>
 
     <div class="faq__list">
       {
         lista.map((f, i) => (
           <details class="faq__item">
-            <summary data-track={`duvida_${i + 1}_abrir`}>
+            <summary data-track={`${track}_${i + 1}_abrir`}>
               <h3>{f.pergunta}</h3>
               <span class="faq__icon" aria-hidden="true" />
             </summary>
             <div class="faq__answer">
               <p>{f.resposta}</p>
               <Pendencia texto={f.validar} />
+              <Pendencia texto={f.confirmar} forcar rotulo="CONFIRMAR" />
             </div>
           </details>
         ))

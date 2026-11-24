@@ -3,24 +3,45 @@ import logo from '../assets/brand/logo.svg';
 import Button from './Button.astro';
 import { nav, baseDoMenu } from '../config/nav';
 
+interface Props {
+  /** Página de anúncio: só o logo (sem link) e o botão do WhatsApp. */
+  semMenu?: boolean;
+  mensagem?: string;
+}
+
+const { semMenu = false, mensagem } = Astro.props;
 const base = baseDoMenu(Astro.url.pathname);
 ---
 
 <header class="header" data-header>
   <div class="container header__bar">
-    <a href="/" class="header__logo" data-track="cabecalho_logo" aria-label="Odonto Silva, página inicial">
-      <img src={logo.src} width="560" height="360" alt="Odonto Silva" />
-    </a>
+    {
+      semMenu ? (
+        <span class="header__logo">
+          <img src={logo.src} width="560" height="360" alt="Odonto Silva" />
+        </span>
+      ) : (
+        <a href="/" class="header__logo" data-track="cabecalho_logo" aria-label="Odonto Silva, página inicial">
+          <img src={logo.src} width="560" height="360" alt="Odonto Silva" />
+        </a>
+      )
+    }
 
-    <nav class="header__nav" aria-label="Principal">
-      <ul>
-        {nav.map((item) => <li><a href={`${base}${item.href}`}>{item.label}</a></li>)}
-      </ul>
-    </nav>
+    {
+      !semMenu && (
+        <nav class="header__nav" aria-label="Principal">
+          <ul>
+            {nav.map((item) => <li><a href={`${base}${item.href}`}>{item.label}</a></li>)}
+          </ul>
+        </nav>
+      )
+    }
 
     <div class="header__actions">
-      <Button whatsapp size="sm" class="header__cta" track="cabecalho_agendar_whatsapp">Agendar consulta</Button>
-      <button
+      <Button whatsapp={mensagem ?? true} size="sm" class:list={['header__cta', { 'header__cta--sempre': semMenu }]} track="cabecalho_agendar_whatsapp">
+        Agendar consulta
+      </Button>
+      {!semMenu && <button
         class="header__toggle"
         type="button"
         aria-expanded="false"
@@ -28,40 +49,43 @@ const base = baseDoMenu(Astro.url.pathname);
         data-menu-toggle>
         <span class="header__toggle-label">Menu</span>
         <span class="header__toggle-icon" aria-hidden="true"><i></i><i></i></span>
-      </button>
+      </button>}
     </div>
   </div>
 
-  <div class="menu" id="menu-mobile" data-menu hidden>
+  {!semMenu && <div class="menu" id="menu-mobile" data-menu hidden>
     <nav class="container" aria-label="Principal (celular)">
       <ul>
         {nav.map((item) => <li><a href={`${base}${item.href}`} data-menu-link>{item.label}</a></li>)}
       </ul>
       <Button whatsapp size="lg" class="menu__cta" track="menu_agendar_whatsapp">Agendar pelo WhatsApp</Button>
     </nav>
-  </div>
+  </div>}
 </header>
 
 <script>
   const header = document.querySelector<HTMLElement>('[data-header]')!;
-  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]')!;
-  const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
 
-  const setOpen = (open: boolean) => {
-    toggle.setAttribute('aria-expanded', String(open));
-    menu.hidden = !open;
-    header.classList.toggle('is-open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-  };
+  // Páginas de anúncio não têm menu.
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+      header.classList.toggle('is-open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
 
-  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !menu.hidden) {
-      setOpen(false);
-      toggle.focus();
-    }
-  });
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
 
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
   onScroll();
@@ -198,6 +222,10 @@ const base = baseDoMenu(Astro.url.pathname);
   @media (max-width: 559px) {
     .header__actions :global(.header__cta) {
       display: none;
+    }
+    /* Sem menu, o botão é o único caminho: fica visível no celular. */
+    .header__actions :global(.header__cta--sempre) {
+      display: inline-flex;
     }
     .header__logo img {
       height: 42px;

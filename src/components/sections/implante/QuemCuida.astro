@@ -1,0 +1,101 @@
+---
+/**
+ * Quem faz o implante. A norma do conselho exige identificar o
+ * responsável; por isso nome e CRO aparecem por extenso.
+ */
+import { implante } from '../../../content/implante';
+import { site, isFilled } from '../../../config/site';
+import Photo from '../../Photo.astro';
+import fotoAtendendo from '../../../assets/fotos/dra-amanda-atendendo.jpg';
+
+const p = site.profissional;
+const q = implante.quemCuida;
+const cirurgioes = implante.cirurgioes.filter((c) => isFilled(c.nome) && isFilled(c.cro));
+---
+
+<section id="quem-cuida" class="section care" aria-labelledby="care-titulo">
+  <div class="container care__grid">
+    <div class="care__media" data-reveal>
+      <Photo
+        image={fotoAtendendo}
+        alt="Dra. Amanda de touca, óculos e máscara, com o nome bordado no jaleco, no consultório"
+        label="FOTO DA DENTISTA ATENDENDO"
+        ratio="4 / 3"
+        frame="tl"
+        sizes="(min-width: 1024px) 45vw, 100vw"
+      />
+    </div>
+
+    <div class="care__text">
+      <span class="kicker">{q.kicker}</span>
+      <h2 id="care-titulo" class="h2">{q.titulo}</h2>
+      <p class="lead care__lead">{q.texto}</p>
+      <p class="care__id">
+        <strong>Dra. {p.nomeCompleto}</strong>
+        <span>{p.profissao} · CRO-SP {p.cro}</span>
+        <span>Avaliação e acompanhamento</span>
+      </p>
+      {
+        cirurgioes.map((c) => (
+          <p class="care__id">
+            <strong>{c.nome}</strong>
+            <span>
+              Implantodontista · CRO-SP {c.cro}
+              {isFilled(c.rqe) && ` · RQE ${c.rqe}`}
+            </span>
+            <span>Cirurgia</span>
+          </p>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .care {
+    background: var(--nevoa-azul);
+  }
+  .care__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: center;
+  }
+  .care__media {
+    grid-column: 1 / span 6;
+  }
+  .care__text {
+    grid-column: 8 / span 5;
+  }
+  .care__lead {
+    margin-top: 20px;
+  }
+  .care__id {
+    display: grid;
+    gap: 2px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1.5px solid var(--tinta);
+    font-size: var(--t-small);
+    color: var(--texto-suave);
+  }
+  .care__id strong {
+    font-family: var(--f-titulo);
+    font-size: 1.0625rem;
+    color: var(--tinta);
+  }
+
+  @media (max-width: 1023px) {
+    .care__grid {
+      grid-template-columns: 1fr;
+      row-gap: 48px;
+    }
+    .care__media,
+    .care__text {
+      grid-column: 1;
+    }
+    .care__media {
+      max-width: 560px;
+    }
+  }
+</style>

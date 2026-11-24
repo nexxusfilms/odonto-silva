@@ -1,0 +1,84 @@
+---
+/**
+ * Implante x protocolo, em linguagem simples. Página /implante-dentario.
+ */
+import { implante } from '../../../content/implante';
+import Pendencia from '../../Pendencia.astro';
+
+const d = implante.diferenca;
+---
+
+<section id="implante-ou-protocolo" class="section dif" aria-labelledby="dif-titulo">
+  <div class="container">
+    <header class="dif__head">
+      <span class="kicker">{d.kicker}</span>
+      <h2 id="dif-titulo" class="h2">{d.titulo}</h2>
+    </header>
+
+    <dl class="dif__list">
+      {
+        d.itens.map((item, i) => (
+          <div class="dif__item" data-reveal style={`transition-delay:${i * 80}ms`}>
+            <span class="dif__num">{String(i + 1).padStart(2, '0')}</span>
+            <dt>{item.termo}</dt>
+            <dd>{item.texto}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <p class="dif__fecho">{d.fecho}</p>
+    <Pendencia texto={d.confirmar} forcar rotulo="CONFIRMAR" />
+  </div>
+</section>
+
+<style>
+  .dif__head {
+    max-width: 40rem;
+  }
+  .dif__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(24px, 4vw, 64px);
+    margin: clamp(40px, 5vw, 64px) 0 0;
+  }
+  .dif__item {
+    padding-top: 24px;
+    border-top: 1.5px solid var(--tinta);
+  }
+  .dif__num {
+    display: block;
+    font-family: var(--f-titulo);
+    font-weight: 700;
+    font-size: var(--t-micro);
+    letter-spacing: 0.12em;
+    color: var(--rosa-profundo);
+    margin-bottom: 10px;
+  }
+  .dif__item dt {
+    font-family: var(--f-titulo);
+    font-weight: 750;
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--tinta);
+  }
+  .dif__item dd {
+    margin: 14px 0 0;
+    max-width: 34rem;
+  }
+  .dif__fecho {
+    margin-top: clamp(40px, 5vw, 56px);
+    max-width: 40rem;
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    color: var(--tinta);
+  }
+
+  @media (max-width: 767px) {
+    .dif__list {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

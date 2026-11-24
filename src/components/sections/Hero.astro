@@ -4,32 +4,49 @@ import Button from '../Button.astro';
 import Photo from '../Photo.astro';
 import Brush from '../Brush.astro';
 import fotoHero from '../../assets/fotos/dra-amanda-hero.jpg';
+import Pendencia from '../Pendencia.astro';
 
 interface Props {
   /** Textos de outra página (ex.: /google-ads). O texto de apoio vira H2. */
-  variante?: { titulo: string[]; texto: string; ctaPrincipal: string };
+  variante?: {
+    titulo: string[];
+    texto: string;
+    ctaPrincipal: string;
+    eyebrow?: string;
+    secundario?: { texto: string; href: string };
+  };
+  /** Mensagem pronta do WhatsApp e prefixo dos nomes de clique. */
+  mensagem?: string;
+  track?: string;
+  /** Linha curta embaixo dos botões (ex.: dias e endereço). */
+  apoio?: string;
+  confirmar?: string;
 }
 
-const { variante } = Astro.props;
+const { variante, mensagem, track = 'topo', apoio, confirmar } = Astro.props;
 const titulo = variante?.titulo ?? hero.titulo;
 const texto = variante?.texto ?? hero.texto;
 const cta = variante?.ctaPrincipal ?? hero.ctaPrincipal;
+const eyebrow = variante?.eyebrow ?? hero.eyebrow;
+const secundario = variante?.secundario ?? { texto: hero.ctaSecundario, href: '#como-funciona' };
 const Apoio = variante ? 'h2' : 'p';
 ---
 
 <section class:list={['hero', { 'hero--longo': variante }]} data-hero aria-labelledby="hero-titulo">
   <div class="container hero__grid">
     <div class="hero__text">
-      <p class="hero__eyebrow">{hero.eyebrow}</p>
+      <p class="hero__eyebrow">{eyebrow}</p>
       <h1 id="hero-titulo" class:list={['hero__title', { 'hero__title--longo': variante }]}>
         <span>{titulo[0]}</span>
         <span class="rosa">{titulo[1]}</span>
       </h1>
       <Apoio class="hero__lead lead">{texto}</Apoio>
       <div class="hero__ctas">
-        <Button whatsapp size="lg" track="topo_agendar_whatsapp">{cta}</Button>
-        <Button href="#como-funciona" variant="text" track="topo_como_funciona">{hero.ctaSecundario}</Button>
+        <Button whatsapp={mensagem ?? true} size="lg" track={`${track}_agendar_whatsapp`}>{cta}</Button>
+        <Button href={secundario.href} variant="text" track={`${track}_como_funciona`}>{secundario.texto}</Button>
       </div>
+      {apoio && <p class="hero__apoio">{apoio}</p>}
+      <Pendencia texto={confirmar} forcar rotulo="CONFIRMAR" />
     </div>
 
     <div class="hero__media">
@@ -98,6 +115,11 @@ const Apoio = variante ? 'h2' : 'p';
     line-height: 1.6;
     color: var(--texto);
     margin-top: clamp(24px, 3vw, 36px);
+  }
+  .hero__apoio {
+    margin-top: 18px;
+    font-size: var(--t-small);
+    color: var(--texto-suave);
   }
   .hero__ctas {
     display: flex;

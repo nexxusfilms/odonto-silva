@@ -3,17 +3,27 @@ import { ctaFinal } from '../../content/home';
 import { site } from '../../config/site';
 import Button from '../Button.astro';
 import Brush from '../Brush.astro';
+
+interface Props {
+  /** Textos de outra página (ex.: /implante-dentario). */
+  conteudo?: { titulo: string[]; texto: string; cta: string };
+  mensagem?: string;
+  track?: string;
+}
+
+const { conteudo, mensagem, track = 'final' } = Astro.props;
+const c = conteudo ?? ctaFinal;
 ---
 
 <section id="contato" class="section final" data-cta-final aria-labelledby="final-titulo">
   <Brush shape="arc" color="rosa" class="final__arc" />
   <div class="container final__inner">
     <h2 id="final-titulo" class="final__title">
-      <span>{ctaFinal.titulo[0]}</span>
-      <span class="rosa">{ctaFinal.titulo[1]}</span>
+      <span>{c.titulo[0]}</span>
+      <span class="rosa">{c.titulo[1]}</span>
     </h2>
-    <p class="lead final__text">{ctaFinal.texto}</p>
-    <Button whatsapp size="lg" track="final_agendar_whatsapp">{ctaFinal.cta}</Button>
+    <p class="lead final__text">{c.texto}</p>
+    <Button whatsapp={mensagem ?? true} size="lg" track={`${track}_agendar_whatsapp`}>{c.cta}</Button>
     <p class="final__meta">
       {site.endereco.bairro}, {site.endereco.cidade} · {site.telefone}
     </p>

@@ -1,0 +1,53 @@
+---
+/**
+ * Por que não há preço na página (Res. CFO 196/2019: preço não pode ser
+ * chamariz).
+ */
+import { implante } from '../../../content/implante';
+
+const p = implante.preco;
+---
+
+<section class="section preco" aria-labelledby="preco-titulo">
+  <div class="container preco__inner">
+    <h2 id="preco-titulo" class="preco__titulo">{p.titulo}</h2>
+    <div>
+      <p class="lead">{p.texto}</p>
+      <p class="preco__pagamento">{p.pagamento}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .preco {
+    background: var(--nevoa-rosa);
+  }
+  .preco__inner {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+  }
+  .preco__pagamento {
+    margin-top: 12px;
+    font-weight: 600;
+  }
+  .preco__titulo {
+    grid-column: 1 / span 5;
+    font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem);
+  }
+  .preco__inner > div {
+    grid-column: 7 / span 6;
+  }
+
+  @media (max-width: 1023px) {
+    .preco__inner {
+      grid-template-columns: 1fr;
+      row-gap: 20px;
+    }
+    .preco__titulo,
+    .preco__inner > div {
+      grid-column: 1;
+    }
+  }
+</style>

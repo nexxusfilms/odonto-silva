@@ -6,29 +6,47 @@
 import { etapas } from '../../content/home';
 import Brush from '../Brush.astro';
 import Button from '../Button.astro';
+import Pendencia from '../Pendencia.astro';
+
+interface Etapa {
+  titulo: string;
+  texto: string;
+  confirmar?: string;
+}
+interface Props {
+  /** Textos de outra página (ex.: /implante-dentario). */
+  conteudo?: { kicker: string; titulo: string; intro: string; anotacao?: string; itens: Etapa[]; cta: string };
+  mensagem?: string;
+  track?: string;
+}
+
+const { conteudo, mensagem, track = 'como_funciona' } = Astro.props;
+const c = conteudo ?? { ...etapas, cta: 'Começar pela conversa' };
+const itens: Etapa[] = c.itens;
 ---
 
 <section id="como-funciona" class="section process" aria-labelledby="process-titulo">
   <div class="container">
     <header class="process__head">
       <div>
-        <span class="kicker">{etapas.kicker}</span>
-        <h2 id="process-titulo" class="h2">{etapas.titulo}</h2>
+        <span class="kicker">{c.kicker}</span>
+        <h2 id="process-titulo" class="h2">{c.titulo}</h2>
       </div>
-      <p class="lead process__intro">{etapas.intro}</p>
+      <p class="lead process__intro">{c.intro}</p>
     </header>
 
     <div class="process__track">
-      <p class="process__note" aria-hidden="true">{etapas.anotacao}</p>
+      {c.anotacao && <p class="process__note" aria-hidden="true">{c.anotacao}</p>}
       <Brush shape="strokeLong" color="petroleo" stretch class="process__line" />
       <ol class="process__list">
         {
-          etapas.itens.map((step, i) => (
+          itens.map((step, i) => (
             <li class="process__step" data-reveal style={`transition-delay:${i * 60}ms`}>
               <span class="process__dot" aria-hidden="true" />
               <span class="process__num">{i + 1}</span>
               <h3 class="process__title">{step.titulo}</h3>
               <p>{step.texto}</p>
+              <Pendencia texto={step.confirmar} forcar rotulo="CONFIRMAR" />
             </li>
           ))
         }
@@ -36,7 +54,7 @@ import Button from '../Button.astro';
     </div>
 
     <div class="process__cta">
-      <Button whatsapp variant="ghost" track="como_funciona_whatsapp">Começar pela conversa</Button>
+      <Button whatsapp={mensagem ?? true} variant="ghost" track={`${track}_whatsapp`}>{c.cta}</Button>
     </div>
   </div>
 </section>

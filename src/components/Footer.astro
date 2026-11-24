@@ -9,13 +9,20 @@ import { flags } from '../config/flags';
 
 const p = site.profissional;
 const e = site.endereco;
+interface Props {
+  /** Página de anúncio: sem navegação nem redes; só dados e a política. */
+  enxuto?: boolean;
+  mensagem?: string;
+}
+
+const { enxuto = false, mensagem } = Astro.props;
 const base = baseDoMenu(Astro.url.pathname);
 const ano = new Date().getFullYear();
 const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencias;
 ---
 
 <footer class="footer">
-  <div class="container footer__grid">
+  <div class:list={['container', 'footer__grid', { 'footer__grid--enxuto': enxuto }]}>
     <div class="footer__brand">
       <img src={logo.src} width="560" height="360" alt="Odonto Silva" loading="lazy" />
       <p class="footer__ident">
@@ -33,19 +40,42 @@ const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencia
           {e.rua}<br />
           {e.bairro}, {e.cidade} - {e.uf}<br />
           {e.cep}
+          {enxuto && (
+            <>
+              <br />
+              {e.referencia}
+            </>
+          )}
         </span>
       </address>
     </div>
+
+    {
+      enxuto && (
+        <div>
+          <h2 class="footer__title">Horários</h2>
+          <ul class="footer__list">
+            {site.horarios.map((h) => (
+              <li>
+                {h.dias}: {h.horas}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
 
     <div>
       <h2 class="footer__title">Contato</h2>
       <ul class="footer__list">
         <li>
-          <a class="footer__item" data-track="rodape_whatsapp" href={whatsappHref()} aria-label={`WhatsApp ${site.telefone}`}>
+          <a class="footer__item" data-track="rodape_whatsapp" href={whatsappHref(mensagem)} aria-label={`WhatsApp ${site.telefone}`}>
             <Icon name="whatsapp" class="footer__icon" />
             <span>{site.telefone}</span>
           </a>
         </li>
+{!enxuto && (
+          <>
         <li>
           <a class="footer__item" data-track="rodape_instagram" href={isFilled(site.links.instagram) ? site.links.instagram : '#'} aria-label={`Instagram ${site.links.instagramUser}`}>
             <Icon name="instagram" class="footer__icon" />
@@ -58,10 +88,28 @@ const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencia
             <span>Avaliações no Google</span>
           </a>
         </li>
+                </>
+        )}
       </ul>
     </div>
 
-    <nav aria-label="Rodapé">
+{
+      enxuto ? (
+        <div>
+          <h2 class="footer__title">Privacidade</h2>
+          <ul class="footer__list">
+            <li><a href="/politica-de-privacidade">Política de privacidade</a></li>
+            {avisoCookies && (
+              <li>
+                <button type="button" class="footer__link" data-cookies-abrir data-track="rodape_preferencias_cookies">
+                  Preferências de cookies
+                </button>
+              </li>
+            )}
+          </ul>
+        </div>
+      ) : (
+        <nav aria-label="Rodapé">
       <h2 class="footer__title">Navegação</h2>
       <ul class="footer__list">
         {nav.map((item) => <li><a href={`${base}${item.href}`}>{item.label}</a></li>)}
@@ -77,6 +125,8 @@ const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencia
         }
       </ul>
     </nav>
+      )
+    }
   </div>
 
   <div class="container footer__legal">
@@ -101,6 +151,10 @@ const avisoCookies = isFilled(site.rastreamento.gtmId) || flags.mostrarPendencia
     display: grid;
     grid-template-columns: 1.4fr 1fr 1fr 1fr;
     gap: 40px;
+  }
+  .footer__grid--enxuto {
+    grid-template-columns: 1.3fr 1.1fr 1fr 1fr 0.9fr;
+    gap: 32px;
   }
   .footer__brand img {
     width: 150px;
